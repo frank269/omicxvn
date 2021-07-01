@@ -3,10 +3,12 @@ import 'package:omicxvn/notifiers/PostsNotifier.dart';
 import 'package:omicxvn/screens/add_post_screen.dart';
 import 'package:omicxvn/screens/home_screen.dart';
 import 'package:omicxvn/screens/login_screen.dart';
+import 'package:omicxvn/services/injection.dart';
 import 'package:omicxvn/widgets/themes.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  await configureDependencies();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => PostsNotifier()),

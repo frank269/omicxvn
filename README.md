@@ -1,16 +1,29 @@
 # omicxvn
 
-A new Flutter project.
+Omicx VN Mobile App
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+# Architecture
 
-A few resources to get you started if this is your first Flutter project:
+![Flutter MVVM + Provider Architecture](https://miro.medium.com/max/1250/1*t-iY-K6Hk796RrrRfCg66Q.png)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+# File Structure
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+lib
+  ├── components                # Components
+  |
+  ├── models                    # Model classes
+  |
+  ├── notifiers                 # Notifier Classes             
+  |
+  ├── screens                   # screens
+  |
+  ├── services                  # services
+  |
+  └── main.dart              
+```
+
+# get_it + injectable + injectable_generator
+- Script to auto generate injection after save
+flutter packages pub run build_runner watch
