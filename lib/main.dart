@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:injectable/injectable.dart';
 import 'package:omicxvn/notifiers/posts_notifier.dart';
 import 'package:omicxvn/screens/add_post_screen.dart';
@@ -16,6 +17,12 @@ void main() {
     ],
     child: MyApp(),
   ));
+}
+
+void showBadge() async {
+  if (await FlutterAppBadger.isAppBadgeSupported()) {
+    FlutterAppBadger.updateBadgeCount(1);
+  }
 }
 
 class MyApp extends StatelessWidget {

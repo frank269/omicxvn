@@ -41,6 +41,8 @@ dependencies:
   injectable: ^1.4.1
   flutter_beautiful_popup: ^1.6.0 
   fluttertoast: ^8.0.7
+  badges: ^2.0.1
+  flutter_app_badger: ^1.2.0
 
 dev_dependencies:
   flutter_test:

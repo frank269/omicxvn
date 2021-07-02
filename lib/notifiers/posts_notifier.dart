@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:omicxvn/injection/injection.dart';
-import 'package:omicxvn/interfaces/postRepository.dart';
+import 'package:omicxvn/interfaces/IPostRepository.dart';
 import 'package:omicxvn/models/Post.dart';
 
 class PostsNotifier with ChangeNotifier {
