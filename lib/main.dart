@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:omicxvn/notifiers/PostsNotifier.dart';
+import 'package:injectable/injectable.dart';
+import 'package:omicxvn/notifiers/posts_notifier.dart';
 import 'package:omicxvn/screens/add_post_screen.dart';
 import 'package:omicxvn/screens/home_screen.dart';
 import 'package:omicxvn/screens/login_screen.dart';
-import 'package:omicxvn/services/injection.dart';
+import 'package:omicxvn/injection/injection.dart';
 import 'package:omicxvn/widgets/themes.dart';
 import 'package:provider/provider.dart';
 
-void main() async {
-  await configureDependencies();
+void main() {
+  configureDependencies(Environment.dev);
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => PostsNotifier()),
@@ -33,10 +34,10 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         var routes = <String, WidgetBuilder>{
           LoginScreen.routeName: (context) => LoginScreen(),
-          HomeScreen.routeName: (context) => HomeScreen(title: "Home"),
+          HomeScreen.routeName: (context) => const HomeScreen(title: 'Home'),
           AddPostScreen.routeName: (context) => AddPostScreen(),
         };
-        WidgetBuilder builder = routes[settings.name] as WidgetBuilder;
+        var builder = routes[settings.name] as WidgetBuilder;
         return MaterialPageRoute<dynamic>(
           builder: (ctx) => builder(ctx),
         );

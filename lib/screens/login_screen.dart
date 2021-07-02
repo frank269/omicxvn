@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:omicxvn/screens/home_screen.dart';
-import 'package:omicxvn/services/test_service.dart';
 
 class LoginScreen extends StatefulWidget {
   static final String routeName = "/login";
@@ -25,7 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    ServiceA a = GetIt.I.get<ServiceA>();
   }
 
   final _formKey = GlobalKey<FormState>();

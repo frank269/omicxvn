@@ -13,7 +13,7 @@ class Post {
   });
 
   static empty() {
-    return new Post(
+    return Post(
       body: '',
       id: 0,
       title: '',

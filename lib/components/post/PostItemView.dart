@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:omicxvn/models/post.dart';
+import 'package:omicxvn/models/Post.dart';
 
 class PostItem extends StatefulWidget {
   final Post post;

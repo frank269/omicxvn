@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:omicxvn/components/post/PostItemView.dart';
-import 'package:omicxvn/notifiers/PostsNotifier.dart';
+import 'package:omicxvn/notifiers/posts_notifier.dart';
 import 'package:omicxvn/screens/add_post_screen.dart';
-import 'package:omicxvn/services/api_service.dart';
 import 'package:omicxvn/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-  static final String routeName = "/";
-  final String title;
-
   const HomeScreen({Key? key, required this.title}) : super(key: key);
+  static const String routeName = '/';
+  final String title;
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -19,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    ApiService.getPosts(Provider.of<PostsNotifier>(context, listen: false));
+    Provider.of<PostsNotifier>(context, listen: false).getData();
     super.initState();
   }
 

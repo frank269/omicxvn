@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:omicxvn/models/post.dart';
+import 'package:omicxvn/injection/injection.dart';
+import 'package:omicxvn/interfaces/postRepository.dart';
+import 'package:omicxvn/models/Post.dart';
 
 class PostsNotifier with ChangeNotifier {
   List<Post> _postList = [];
@@ -23,9 +25,16 @@ class PostsNotifier with ChangeNotifier {
     return _postList;
   }
 
+  void getData() async {
+    _postList = await getIt<IPostRepository>().getPost();
+    notifyListeners();
+  }
+
   Future<bool> uploadPost(Post post) async {
-    await Future.delayed(Duration(seconds: 2));
-    addPostToList(post);
-    return true;
+    var result = await getIt<IPostRepository>().addPost(post);
+    if (result) {
+      addPostToList(post);
+    }
+    return result;
   }
 }

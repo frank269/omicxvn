@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:omicxvn/models/post.dart';
-import 'package:omicxvn/notifiers/PostsNotifier.dart';
+import 'package:flutter_beautiful_popup/main.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:omicxvn/models/Post.dart';
+import 'package:omicxvn/notifiers/posts_notifier.dart';
 import 'package:provider/provider.dart';
 
 class AddPostScreen extends StatefulWidget {
@@ -13,28 +15,41 @@ class _AddPostScreenState extends State<AddPostScreen> {
   final _formKey = GlobalKey<FormState>();
   Post _post = Post.empty();
 
-  _showSnackBar(String text, BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(text),
-      duration: Duration(milliseconds: 500),
-    ));
+  var isBusy = false;
+  setBusy(bool isbusy) {
+    if (this.mounted) {
+      setState(() => isBusy = isbusy);
+    }
+  }
+
+  _showSnackBar(String text) {
+    Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   _createPost(BuildContext context) {
     if (!(_formKey.currentState?.validate() ?? false)) {
-      _showSnackBar("Failed to create Post", context);
+      _showSnackBar('Failed to create Post');
       return;
     }
+    setBusy(true);
     _formKey.currentState?.save();
     _post.userId =
         1; // this is hard coded currently as we don't have authService
 
-    PostsNotifier postNotifier =
-        Provider.of<PostsNotifier>(context, listen: false);
+    var postNotifier = Provider.of<PostsNotifier>(context, listen: false);
     _post.id = postNotifier.getPostList().length + 1;
     postNotifier.uploadPost(_post).then((value) {
+      setBusy(false);
       if (value) {
-        _showSnackBar("post added successfully", context);
+        _showSnackBar('post added successfully');
         Navigator.pop(context);
       }
     });
@@ -49,9 +64,42 @@ class _AddPostScreenState extends State<AddPostScreen> {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-              Provider.of<PostsNotifier>(context, listen: false)
-                  .clearPostList();
-              Navigator.pop(context);
+              final templates = [
+                TemplateGift,
+                TemplateCamera,
+                TemplateNotification,
+                TemplateGeolocation,
+                TemplateSuccess,
+                TemplateFail,
+                // TemplateOrangeRocket,
+                TemplateGreenRocket,
+                TemplateOrangeRocket2,
+                TemplateCoin,
+                TemplateBlueRocket,
+                TemplateThumb,
+                TemplateAuthentication,
+                TemplateTerm,
+                TemplateRedPacket,
+              ];
+              final popup = BeautifulPopup(
+                context: context,
+                template: templates[0],
+              );
+              popup.show(
+                title: 'Chúc mừng năm mới',
+                content: 'Chúc mừng bạn đã nhận được một món quà',
+                actions: [
+                  popup.button(
+                    label: 'Close',
+                    onPressed: Navigator.of(context).pop,
+                  ),
+                ],
+                // bool barrierDismissible = false,
+                // Widget close,
+              );
+              // Provider.of<PostsNotifier>(context, listen: false)
+              //     .clearPostList();
+              // Navigator.pop(context);
             },
           ),
         ],
@@ -106,12 +154,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32),
-              child: ElevatedButton(
-                onPressed: () {
-                  _createPost(context);
-                },
-                child: Text('Create'),
-              ),
+              child: isBusy
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: () {
+                        _createPost(context);
+                      },
+                      child: Text('Create'),
+                    ),
             ),
           ],
         ),

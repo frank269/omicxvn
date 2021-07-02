@@ -5,7 +5,7 @@ Omicx VN Mobile App
 
 # Architecture
 
-![#fff][Flutter MVVM + Provider Architecture](https://miro.medium.com/max/1250/1*t-iY-K6Hk796RrrRfCg66Q.png)
+![#fff](https://miro.medium.com/max/1250/1*t-iY-K6Hk796RrrRfCg66Q.png)
 
 # File Structure
 
@@ -18,6 +18,8 @@ lib
   ├── notifiers                 # Notifier Classes             
   |
   ├── screens                   # screens
+  |
+  ├── interfaces                # interfaces
   |
   ├── services                  # services
   |
