@@ -37,7 +37,9 @@ class MyApp extends StatelessWidget {
           AddPostScreen.routeName: (context) => AddPostScreen(),
         };
         WidgetBuilder builder = routes[settings.name] as WidgetBuilder;
-        return MaterialPageRoute(builder: (ctx) => builder(ctx));
+        return MaterialPageRoute<dynamic>(
+          builder: (ctx) => builder(ctx),
+        );
       },
     );
   }

@@ -5,7 +5,7 @@ Omicx VN Mobile App
 
 # Architecture
 
-![Flutter MVVM + Provider Architecture](https://miro.medium.com/max/1250/1*t-iY-K6Hk796RrrRfCg66Q.png)
+![#fff][Flutter MVVM + Provider Architecture](https://miro.medium.com/max/1250/1*t-iY-K6Hk796RrrRfCg66Q.png)
 
 # File Structure
 
@@ -25,5 +25,8 @@ lib
 ```
 
 # get_it + injectable + injectable_generator
-- Script to auto generate injection after save
+
+Script to auto generate injection after save
+```
 flutter packages pub run build_runner watch
+```

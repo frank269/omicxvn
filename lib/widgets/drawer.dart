@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:omicxvn/screens/login_screen.dart';
@@ -31,7 +33,7 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () => {},
+              onTap: null,
               leading: Icon(
                 CupertinoIcons.home,
                 color: Colors.white,
@@ -45,7 +47,7 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () => {},
+              onTap: null,
               leading: Icon(
                 CupertinoIcons.profile_circled,
                 color: Colors.white,
