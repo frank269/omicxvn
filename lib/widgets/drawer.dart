@@ -2,7 +2,9 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:omicxvn/screens/home_screen.dart';
 import 'package:omicxvn/screens/login_screen.dart';
+import 'package:omicxvn/screens/ticket_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);
@@ -33,16 +35,60 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: null,
+              onTap: () => Navigator.pushReplacementNamed(
+                  context, HomeScreen.routeName),
               leading: Icon(
-                CupertinoIcons.home,
+                Icons.dashboard,
                 color: Colors.white,
               ),
               title: Text(
-                "Home",
+                "Dashboard",
                 textScaleFactor: 1.2,
                 style: TextStyle(
                   color: Colors.white,
+                ),
+              ),
+            ),
+            ListTile(
+              onTap: null,
+              leading: Icon(
+                Icons.perm_phone_msg,
+                color: Colors.white,
+              ),
+              title: Text(
+                "Lịch sử cuộc gọi",
+                textScaleFactor: 1.2,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            ListTile(
+              onTap: null,
+              leading: Icon(
+                Icons.contact_phone,
+                color: Colors.white,
+              ),
+              title: Text(
+                "Danh sách khách hàng",
+                textScaleFactor: 1.2,
+                style: TextStyle(
+                    color: Colors.white
+                ),
+              ),
+            ),
+            ListTile(
+              onTap: () => Navigator.pushReplacementNamed(
+                  context, TicketScreen.routeName),
+              leading: Icon(
+                Icons.credit_card,
+                color: Colors.white,
+              ),
+              title: Text(
+                "Quản lý ticket",
+                textScaleFactor: 1.2,
+                style: TextStyle(
+                    color: Colors.white
                 ),
               ),
             ),
@@ -53,10 +99,10 @@ class MyDrawer extends StatelessWidget {
                 color: Colors.white,
               ),
               title: Text(
-                "Profile",
+                "Thông tin cá nhân",
                 textScaleFactor: 1.2,
                 style: TextStyle(
-                  color: Colors.white,
+                    color: Colors.white
                 ),
               ),
             ),

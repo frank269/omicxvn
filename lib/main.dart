@@ -6,11 +6,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 import 'package:omicxvn/notifiers/detail_notifier.dart';
 import 'package:omicxvn/notifiers/posts_notifier.dart';
+import 'package:omicxvn/notifiers/ticket_notifier.dart';
 import 'package:omicxvn/screens/add_post_screen.dart';
 import 'package:omicxvn/screens/detail_screen.dart';
 import 'package:omicxvn/screens/home_screen.dart';
 import 'package:omicxvn/screens/login_screen.dart';
 import 'package:omicxvn/injection/injection.dart';
+import 'package:omicxvn/screens/ticket_screen.dart';
 import 'package:omicxvn/widgets/themes.dart';
 import 'package:provider/provider.dart';
 
@@ -86,6 +88,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => PostsNotifier()),
       ChangeNotifierProvider(create: (context) => DetailNotifier()),
+      ChangeNotifierProvider(create: (context) => TicketsNotifier())
     ],
     child: MyApp(),
   ));
@@ -110,6 +113,7 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (context) => const HomeScreen(title: 'Home'),
           AddPostScreen.routeName: (context) => AddPostScreen(),
           DetailScreen.routeName: (context) => DetailScreen(),
+          TicketScreen.routeName: (context) => const TicketScreen(title: 'Quản lý ticket')
         };
         var builder = routes[settings.name] as WidgetBuilder;
         return MaterialPageRoute<dynamic>(
