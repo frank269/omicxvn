@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "782218456680",
+    "project_id": "omicxvn",
+    "storage_bucket": "omicxvn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782218456680:android:f3e3b561feacc9e192d5dd",
+        "android_client_info": {
+          "package_name": "com.metechvn.omicxvn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782218456680-erusm45h5i19b27be4f8epn3vmtcanek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfzwhrx1Q2T28mF28U80Ps76HVxE1VlbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782218456680-erusm45h5i19b27be4f8epn3vmtcanek.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "782218456680-9qm8aucjf92hsf8e2cgbfiichkqfalqe.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.metechvn.omicxvn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,36 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:omicxvn/components/common/conditional_builder.dart';
+import 'package:omicxvn/components/common/default_widget.dart';
 import 'package:omicxvn/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-  static final String routeName = "/login";
+  static const String routeName = '/login';
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String username = "";
-  String password = "";
-  String errorMsg = "";
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  String errorMsg = '';
+  bool isPassword = true;
   var isBusy = false;
   setBusy(bool isbusy) {
-    if (this.mounted) {
+    if (mounted) {
       setState(() => isBusy = isbusy);
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   final _formKey = GlobalKey<FormState>();
   moveToHome(BuildContext context) async {
-    setBusy(true);
-    await Future.delayed(Duration(seconds: 1));
-    setBusy(false);
-    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    if (_formKey.currentState!.validate()) {
+      setBusy(true);
+      await Future.delayed(const Duration(seconds: 1));
+      setBusy(false);
+      await Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    }
   }
 
   @override
@@ -43,28 +47,28 @@ class _LoginScreenState extends State<LoginScreen> {
           key: _formKey,
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               Image.asset(
-                "assets/images/welcome.png",
+                'assets/images/welcome.png',
                 fit: BoxFit.cover,
                 width: 400,
                 // height: 1000,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text(
-                "Omicx Mobile App",
+              const Text(
+                'Omicx Mobile App',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
                 errorMsg,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                   color: Colors.red,
@@ -75,37 +79,43 @@ class _LoginScreenState extends State<LoginScreen> {
                     const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
                 child: Column(
                   children: [
-                    TextFormField(
-                      decoration: InputDecoration(
-                          hintText: "Enter Username", labelText: "UserName"),
-                      onChanged: (value) {
-                        username = value;
-                        // setState(() {});
-                      },
+                    defaultFormField(
+                      controller: emailController,
+                      type: TextInputType.emailAddress,
+                      hintText: 'Enter your email',
+                      text: 'Email',
+                      prefix: Icons.email,
                       textInputAction: TextInputAction.next,
-                      onEditingComplete: () => node.nextFocus(),
+                      // border: true,
+                      onEditingComplete: node.nextFocus,
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return "Username cannot be empty";
+                          return 'Username cannot be empty';
                         }
                         return null;
                       },
                     ),
-                    TextFormField(
-                      obscureText: true,
+                    defaultFormField(
+                      controller: passwordController,
+                      type: TextInputType.emailAddress,
+                      hintText: 'Enter your password',
+                      text: 'Password',
+                      prefix: Icons.lock,
+                      suffix:
+                          isPassword ? Icons.visibility : Icons.visibility_off,
+                      onSuffixPressed: () => setState(() => {
+                            isPassword = !isPassword,
+                          }),
                       textInputAction: TextInputAction.done,
-                      onEditingComplete: () => node.unfocus(),
-                      decoration: InputDecoration(
-                          hintText: "Enter Password", labelText: "Password"),
-                      onChanged: (value) {
-                        password = value;
-                      },
-                      onFieldSubmitted: (value) => moveToHome(context),
+                      // border: true,
+                      isPassword: isPassword,
+                      onEditingComplete: node.unfocus,
+                      onSubmit: (value) => moveToHome(context),
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return "Password cannot be empty";
+                          return 'Password cannot be empty';
                         } else if ((value?.length ?? 0) < 6) {
-                          return "Password length should be atleast 6";
+                          return 'Password length should be atleast 6';
                         }
                         return null;
                       },
@@ -113,16 +123,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              isBusy
-                  ? CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: () => moveToHome(context),
-                      style: TextButton.styleFrom(minimumSize: Size(150, 40)),
-                      child: Text("Login")),
-              SizedBox(
+              ConditionalBuilder(
+                condition: !isBusy,
+                builder: (context) => defautButton(
+                  text: 'Login',
+                  onclicked: () => moveToHome(context),
+                ),
+                fallback: (context) => const CircularProgressIndicator(),
+              ),
+              const SizedBox(
                 height: 50,
               ),
             ],

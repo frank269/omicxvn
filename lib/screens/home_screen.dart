@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:omicxvn/components/post/PostItemView.dart';
 import 'package:omicxvn/notifiers/posts_notifier.dart';
 import 'package:omicxvn/screens/add_post_screen.dart';
+import 'package:omicxvn/screens/detail_screen.dart';
 import 'package:omicxvn/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           onPressed: () {
-            Navigator.pushNamed(context, AddPostScreen.routeName);
+            Navigator.pushNamed(context, DetailScreen.routeName);
           }),
       drawer: MyDrawer(),
     );
