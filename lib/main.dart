@@ -4,23 +4,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
+import 'package:omicxvn/notifiers/call_notifier.dart';
 import 'package:omicxvn/notifiers/detail_notifier.dart';
 import 'package:omicxvn/notifiers/posts_notifier.dart';
 import 'package:omicxvn/screens/add_post_screen.dart';
 import 'package:omicxvn/screens/detail_screen.dart';
+import 'package:omicxvn/screens/dialpad_screen.dart';
 import 'package:omicxvn/screens/home_screen.dart';
 import 'package:omicxvn/screens/login_screen.dart';
 import 'package:omicxvn/injection/injection.dart';
 import 'package:omicxvn/widgets/themes.dart';
 import 'package:provider/provider.dart';
 
-/// Define a top-level named handler which background/terminated messages will
-/// call.
-///
-/// To verify things are working, check out the native platform logs.
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
   print('Handling a background message ${message.messageId}');
 }
@@ -86,6 +82,7 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => PostsNotifier()),
       ChangeNotifierProvider(create: (context) => DetailNotifier()),
+      ChangeNotifierProvider(create: (context) => CallNotifier()),
     ],
     child: MyApp(),
   ));
@@ -110,6 +107,7 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (context) => const HomeScreen(title: 'Home'),
           AddPostScreen.routeName: (context) => AddPostScreen(),
           DetailScreen.routeName: (context) => DetailScreen(),
+          DialPad.routeName: (context) => const DialPad(),
         };
         var builder = routes[settings.name] as WidgetBuilder;
         return MaterialPageRoute<dynamic>(

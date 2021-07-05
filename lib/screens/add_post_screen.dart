@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_beautiful_popup/main.dart';
+// import 'package:flutter_beautiful_popup/main.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:omicxvn/models/Post.dart';
 import 'package:omicxvn/notifiers/posts_notifier.dart';
@@ -64,39 +64,39 @@ class _AddPostScreenState extends State<AddPostScreen> {
           IconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
-              final templates = [
-                TemplateGift,
-                TemplateCamera,
-                TemplateNotification,
-                TemplateGeolocation,
-                TemplateSuccess,
-                TemplateFail,
-                // TemplateOrangeRocket,
-                TemplateGreenRocket,
-                TemplateOrangeRocket2,
-                TemplateCoin,
-                TemplateBlueRocket,
-                TemplateThumb,
-                TemplateAuthentication,
-                TemplateTerm,
-                TemplateRedPacket,
-              ];
-              final popup = BeautifulPopup(
-                context: context,
-                template: templates[0],
-              );
-              popup.show(
-                title: 'Chúc mừng năm mới',
-                content: 'Chúc mừng bạn đã nhận được một món quà',
-                actions: [
-                  popup.button(
-                    label: 'Close',
-                    onPressed: Navigator.of(context).pop,
-                  ),
-                ],
-                // bool barrierDismissible = false,
-                // Widget close,
-              );
+              // final templates = [
+              //   TemplateGift,
+              //   TemplateCamera,
+              //   TemplateNotification,
+              //   TemplateGeolocation,
+              //   TemplateSuccess,
+              //   TemplateFail,
+              //   // TemplateOrangeRocket,
+              //   TemplateGreenRocket,
+              //   TemplateOrangeRocket2,
+              //   TemplateCoin,
+              //   TemplateBlueRocket,
+              //   TemplateThumb,
+              //   TemplateAuthentication,
+              //   TemplateTerm,
+              //   TemplateRedPacket,
+              // ];
+              // final popup = BeautifulPopup(
+              //   context: context,
+              //   template: templates[0],
+              // );
+              // popup.show(
+              //   title: 'Chúc mừng năm mới',
+              //   content: 'Chúc mừng bạn đã nhận được một món quà',
+              //   actions: [
+              //     popup.button(
+              //       label: 'Close',
+              //       onPressed: Navigator.of(context).pop,
+              //     ),
+              //   ],
+              // bool barrierDismissible = false,
+              // Widget close,
+              // );
               // Provider.of<PostsNotifier>(context, listen: false)
               //     .clearPostList();
               // Navigator.pop(context);

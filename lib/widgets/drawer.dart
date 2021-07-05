@@ -2,6 +2,8 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:omicxvn/screens/dialpad_screen.dart';
+import 'package:omicxvn/screens/home_screen.dart';
 import 'package:omicxvn/screens/login_screen.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -33,7 +35,8 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: null,
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, HomeScreen.routeName),
               leading: Icon(
                 CupertinoIcons.home,
                 color: Colors.white,
@@ -54,6 +57,21 @@ class MyDrawer extends StatelessWidget {
               ),
               title: Text(
                 "Profile",
+                textScaleFactor: 1.2,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            ListTile(
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, DialPad.routeName),
+              leading: Icon(
+                CupertinoIcons.dial,
+                color: Colors.white,
+              ),
+              title: Text(
+                "Metech call",
                 textScaleFactor: 1.2,
                 style: TextStyle(
                   color: Colors.white,
