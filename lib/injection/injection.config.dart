@@ -6,6 +6,8 @@
 
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
+import 'package:omicxvn/interfaces/ITicketRepository.dart';
+import 'package:omicxvn/services/ticket/DevTicketRepository.dart';
 
 import '../interfaces/IPostRepository.dart' as _i3;
 import '../services/post/DevPostRepository.dart' as _i4;
@@ -23,5 +25,6 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
       registerFor: {_dev});
   gh.singleton<_i3.IPostRepository>(_i5.ProdPostRepository(),
       registerFor: {_prod});
+  gh.singleton<ITicketRepository>(DevTicketRepository(), registerFor: {_dev});
   return get;
 }
