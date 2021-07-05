@@ -6,24 +6,11 @@ import 'package:omicxvn/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 import 'package:sip_ua/sip_ua.dart';
 
-class DialPad extends StatefulWidget {
+class DialPad extends StatelessWidget {
   static const String routeName = '/dialpad';
-  const DialPad({Key? key}) : super(key: key);
-
-  @override
-  _DialPadState createState() => _DialPadState();
-}
-
-class _DialPadState extends State<DialPad> {
   final TextEditingController _textController = TextEditingController();
   String receivedMsg = '';
   CallStateEnum currentCallState = CallStateEnum.NONE;
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<CallNotifier>(context, listen: false).register();
-  }
-
   List<Widget> _buildNumPad() {
     var lables = [
       [
@@ -130,12 +117,12 @@ class _DialPadState extends State<DialPad> {
                   ActionButton(
                     icon: Icons.phone,
                     fillColor: Colors.green,
-                    onPressed: _handleAccept,
+                    onPressed: () => _handleAccept(context),
                   ),
                   ActionButton(
                     icon: Icons.call_end,
                     fillColor: Colors.red,
-                    onPressed: _handleHangup,
+                    onPressed: () => _handleHangup(context),
                   ),
                 ],
               ),
@@ -149,7 +136,7 @@ class _DialPadState extends State<DialPad> {
                   ActionButton(
                     icon: Icons.call_end,
                     fillColor: Colors.red,
-                    onPressed: _handleHangup,
+                    onPressed: () => _handleHangup(context),
                   ),
                 ],
               ),
@@ -187,28 +174,28 @@ class _DialPadState extends State<DialPad> {
     return null;
   }
 
-  void _handleAccept() {
+  void _handleAccept(context) {
     Provider.of<CallNotifier>(context, listen: false).answer();
   }
 
-  void _handleHangup() {
+  void _handleHangup(context) {
     Provider.of<CallNotifier>(context, listen: false).hangup();
   }
 
   void _handleBackSpace([bool deleteAll = false]) {
     var text = _textController.text;
     if (text.isNotEmpty) {
-      this.setState(() {
-        text = deleteAll ? '' : text.substring(0, text.length - 1);
-        _textController.text = text;
-      });
+      // this.setState(() {
+      text = deleteAll ? '' : text.substring(0, text.length - 1);
+      _textController.text = text;
+      // });
     }
   }
 
   void _handleNum(String number) {
-    this.setState(() {
-      _textController.text += number;
-    });
+    // this.setState(() {
+    _textController.text += number;
+    // });
   }
 
   Widget _dialView(callNotifier) {

@@ -4,17 +4,18 @@ import 'package:omicxvn/components/common/default_widget.dart';
 import 'package:omicxvn/notifiers/auth_provider.dart';
 import 'package:omicxvn/notifiers/call_notifier.dart';
 import 'package:omicxvn/screens/home_screen.dart';
-import 'package:omicxvn/screens/register_screen.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  static const String routeName = '/login';
+class RegisterScreen extends StatefulWidget {
+  static const String routeName = '/register';
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
+  var firstNameController = TextEditingController();
+  var lastNameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   String errorMsg = '';
@@ -37,13 +38,13 @@ class _LoginScreenState extends State<LoginScreen> {
       setBusy(true);
       var _authProvider = Provider.of<AuthProvider>(context, listen: false);
       try {
-        if (await _authProvider.loginUser(
+        if (await _authProvider.signUpUser(
             emailController.text, passwordController.text)) {
           Provider.of<CallNotifier>(context, listen: false).register();
           await Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         } else {
           setBusy(false);
-          setState(() => errorMsg = 'UserName or Password is incorrect!');
+          setState(() => errorMsg = 'User is exist, please login');
         }
       } catch (e) {
         print(e);
@@ -66,17 +67,17 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 40,
               ),
-              Image.asset(
-                'assets/images/welcome.png',
-                fit: BoxFit.cover,
-                width: 400,
-                // height: 1000,
-              ),
+              // Image.asset(
+              //   'assets/images/welcome.png',
+              //   fit: BoxFit.cover,
+              //   width: 400,
+              //   // height: 1000,
+              // ),
               const SizedBox(
                 height: 20,
               ),
               const Text(
-                'Omicx Mobile App',
+                'Đăng ký tài khoản',
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
               ),
               const SizedBox(
@@ -96,7 +97,38 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     defaultFormField(
-                      enable: !isBusy,
+                      controller: firstNameController,
+                      type: TextInputType.emailAddress,
+                      hintText: 'Enter your First Name',
+                      text: 'First Name',
+                      prefix: Icons.email,
+                      textInputAction: TextInputAction.next,
+                      // border: true,
+                      onEditingComplete: node.nextFocus,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'First Name cannot be empty';
+                        }
+                        return null;
+                      },
+                    ),
+                    defaultFormField(
+                      controller: lastNameController,
+                      type: TextInputType.emailAddress,
+                      hintText: 'Enter your Last Name',
+                      text: 'Last Name',
+                      prefix: Icons.email,
+                      textInputAction: TextInputAction.next,
+                      // border: true,
+                      onEditingComplete: node.nextFocus,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Last Name cannot be empty';
+                        }
+                        return null;
+                      },
+                    ),
+                    defaultFormField(
                       controller: emailController,
                       type: TextInputType.emailAddress,
                       hintText: 'Enter your email',
@@ -115,7 +147,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     defaultFormField(
-                      enable: !isBusy,
                       controller: passwordController,
                       type: TextInputType.emailAddress,
                       hintText: 'Enter your password',
@@ -149,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ConditionalBuilder(
                 condition: !isBusy,
                 builder: (context) => defautButton(
-                  text: 'Login',
+                  text: 'Register',
                   onclicked: () => moveToHome(context),
                 ),
                 fallback: (context) => const CircularProgressIndicator(),
@@ -159,15 +190,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, RegisterScreen.routeName);
+                  Navigator.pop(context);
                 },
                 child: RichText(
                   text: const TextSpan(
-                    text: "Don't have an account?",
+                    text: 'Have an account?',
                     style: TextStyle(fontSize: 15.0, color: Colors.black),
                     children: [
                       TextSpan(
-                        text: ' Register Now',
+                        text: ' Login Now',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 18,

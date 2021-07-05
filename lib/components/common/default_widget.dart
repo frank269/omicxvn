@@ -33,8 +33,10 @@ Widget defaultFormField({
   Function(String)? onChanged,
   Function()? onEditingComplete,
   String? Function(String?)? validator,
+  bool enable = true,
 }) =>
     TextFormField(
+      enabled: enable,
       obscureText: isPassword,
       controller: controller,
       keyboardType: type,

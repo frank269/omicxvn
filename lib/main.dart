@@ -13,8 +13,11 @@ import 'package:omicxvn/screens/dialpad_screen.dart';
 import 'package:omicxvn/screens/home_screen.dart';
 import 'package:omicxvn/screens/login_screen.dart';
 import 'package:omicxvn/injection/injection.dart';
+import 'package:omicxvn/screens/register_screen.dart';
 import 'package:omicxvn/widgets/themes.dart';
 import 'package:provider/provider.dart';
+
+import 'notifiers/auth_provider.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
@@ -83,6 +86,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => PostsNotifier()),
       ChangeNotifierProvider(create: (context) => DetailNotifier()),
       ChangeNotifierProvider(create: (context) => CallNotifier()),
+      ChangeNotifierProvider(create: (context) => AuthProvider()),
     ],
     child: MyApp(),
   ));
@@ -107,7 +111,8 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (context) => const HomeScreen(title: 'Home'),
           AddPostScreen.routeName: (context) => AddPostScreen(),
           DetailScreen.routeName: (context) => DetailScreen(),
-          DialPad.routeName: (context) => const DialPad(),
+          DialPad.routeName: (context) => DialPad(),
+          RegisterScreen.routeName: (context) => RegisterScreen(),
         };
         var builder = routes[settings.name] as WidgetBuilder;
         return MaterialPageRoute<dynamic>(
