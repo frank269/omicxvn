@@ -15,9 +15,12 @@ import 'package:omicxvn/screens/home_screen.dart';
 import 'package:omicxvn/screens/login_screen.dart';
 import 'package:omicxvn/injection/injection.dart';
 import 'package:omicxvn/screens/register_screen.dart';
+import 'package:omicxvn/screens/test_notification_screen.dart';
 import 'package:omicxvn/screens/ticket_screen.dart';
+import 'package:omicxvn/utils/LocalNotifyManager.dart';
 import 'package:omicxvn/widgets/themes.dart';
 import 'package:provider/provider.dart';
+import 'package:workmanager/workmanager.dart';
 
 import 'notifiers/auth_provider.dart';
 
@@ -32,9 +35,25 @@ late AndroidNotificationChannel channel;
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
+void callbackDispatcher() {
+  Workmanager.executeTask((task, inputData) {
+    LocalNotifyManager().showNotification();
+    return Future.value(true);
+  });
+}
+
 void main() async {
   configureDependencies(Environment.dev);
   WidgetsFlutterBinding.ensureInitialized();
+  // Workmanager.initialize(
+  //   callbackDispatcher,
+  // isInDebugMode: true,
+  // );
+  // Workmanager.registerPeriodicTask(
+  //   "2",
+  //   "simplePeriodicTask",
+  //   frequency: Duration(minutes: 15),
+  // );
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   if (!kIsWeb) {
@@ -116,6 +135,7 @@ class MyApp extends StatelessWidget {
           DetailScreen.routeName: (context) => DetailScreen(),
           RegisterScreen.routeName: (context) => RegisterScreen(),
           DialPad.routeName: (context) => DialPad(),
+          NotificationScreen.routeName: (context) => const NotificationScreen(),
           TicketScreen.routeName: (context) =>
               const TicketScreen(title: 'Quản lý ticket')
         };

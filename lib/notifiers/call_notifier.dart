@@ -3,10 +3,10 @@ import 'package:sip_ua/sip_ua.dart';
 
 class CallNotifier with ChangeNotifier implements SipUaHelperListener {
   SIPUAHelper _helper = SIPUAHelper();
-  Map<String, String> _wsExtraHeaders = {
-    'Origin': ' https://call.metechvn.com',
-    'Host': 'call.metechvn.com:5090'
-  };
+  // Map<String, String> _wsExtraHeaders = {
+  //   'Origin': ' https://call.metechvn.com',
+  //   'Host': 'call.metechvn.com:5090'
+  // };
   var registerState = RegistrationState(state: RegistrationStateEnum.NONE);
   var callState = CallState(CallStateEnum.NONE);
   var transportState = TransportState(TransportStateEnum.NONE);
@@ -35,7 +35,7 @@ class CallNotifier with ChangeNotifier implements SipUaHelperListener {
       var settings = UaSettings();
 
       settings.webSocketUrl = 'wss://call.metechvn.com:7443';
-      settings.webSocketSettings.extraHeaders = _wsExtraHeaders;
+      // settings.webSocketSettings.extraHeaders = _wsExtraHeaders;
       settings.webSocketSettings.allowBadCertificate = true;
       settings.iceServers = [
         {

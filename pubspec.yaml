@@ -47,6 +47,8 @@ dependencies:
   firebase_messaging: ^10.0.3
   flutter_local_notifications: ^6.0.0
   sip_ua: ^0.3.4
+  rxdart: ^0.27.1
+  workmanager: ^0.2.3
 
 dev_dependencies:
   flutter_test:

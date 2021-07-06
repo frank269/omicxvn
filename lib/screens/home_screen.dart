@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
-  static const String routeName = '/';
+  static const String routeName = '/home';
   final String title;
 
   @override

@@ -8,7 +8,7 @@ import 'package:omicxvn/screens/register_screen.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
-  static const String routeName = '/login';
+  static const String routeName = '/';
 
   @override
   _LoginScreenState createState() => _LoginScreenState();

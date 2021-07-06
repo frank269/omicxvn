@@ -6,7 +6,7 @@ import 'package:omicxvn/notifiers/posts_notifier.dart';
 import 'package:provider/provider.dart';
 
 class AddPostScreen extends StatefulWidget {
-  static final String routeName = "/addpost";
+  static final String routeName = "addpost";
   @override
   _AddPostScreenState createState() => _AddPostScreenState();
 }

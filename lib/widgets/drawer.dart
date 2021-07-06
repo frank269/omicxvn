@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:omicxvn/screens/dialpad_screen.dart';
 import 'package:omicxvn/screens/home_screen.dart';
 import 'package:omicxvn/screens/login_screen.dart';
+import 'package:omicxvn/screens/test_notification_screen.dart';
 import 'package:omicxvn/screens/ticket_screen.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -36,8 +37,8 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () => Navigator.pushReplacementNamed(
-                  context, HomeScreen.routeName),
+              onTap: () =>
+                  Navigator.pushReplacementNamed(context, HomeScreen.routeName),
               leading: Icon(
                 Icons.dashboard,
                 color: Colors.white,
@@ -73,9 +74,7 @@ class MyDrawer extends StatelessWidget {
               title: Text(
                 "Danh sách khách hàng",
                 textScaleFactor: 1.2,
-                style: TextStyle(
-                    color: Colors.white
-                ),
+                style: TextStyle(color: Colors.white),
               ),
             ),
             ListTile(
@@ -88,13 +87,12 @@ class MyDrawer extends StatelessWidget {
               title: Text(
                 "Quản lý ticket",
                 textScaleFactor: 1.2,
-                style: TextStyle(
-                    color: Colors.white
-                ),
+                style: TextStyle(color: Colors.white),
               ),
             ),
             ListTile(
-              onTap: null,
+              onTap: () => Navigator.pushReplacementNamed(
+                  context, NotificationScreen.routeName),
               leading: Icon(
                 CupertinoIcons.profile_circled,
                 color: Colors.white,
@@ -102,9 +100,7 @@ class MyDrawer extends StatelessWidget {
               title: Text(
                 "Thông tin cá nhân",
                 textScaleFactor: 1.2,
-                style: TextStyle(
-                    color: Colors.white
-                ),
+                style: TextStyle(color: Colors.white),
               ),
             ),
             ListTile(
