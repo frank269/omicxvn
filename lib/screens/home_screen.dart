@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:omicxvn/components/post/PostItemView.dart';
 import 'package:omicxvn/notifiers/posts_notifier.dart';
@@ -53,12 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: new FloatingActionButton(
           elevation: 0.0,
-          child: Badge(
-            badgeContent: Text('3'),
-            padding: EdgeInsets.all(3),
-            child: Icon(
-              Icons.shopping_cart,
-            ),
+          child: Icon(
+            Icons.shopping_cart,
           ),
           onPressed: () {
             Navigator.pushNamed(context, DetailScreen.routeName);

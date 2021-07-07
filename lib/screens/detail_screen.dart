@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:omicxvn/notifiers/detail_notifier.dart';
 import 'package:provider/provider.dart';

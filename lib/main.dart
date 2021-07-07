@@ -1,8 +1,9 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 import 'package:omicxvn/notifiers/call_notifier.dart';
 import 'package:omicxvn/notifiers/detail_notifier.dart';
@@ -17,7 +18,7 @@ import 'package:omicxvn/injection/injection.dart';
 import 'package:omicxvn/screens/register_screen.dart';
 import 'package:omicxvn/screens/test_notification_screen.dart';
 import 'package:omicxvn/screens/ticket_screen.dart';
-import 'package:omicxvn/utils/LocalNotifyManager.dart';
+// import 'package:omicxvn/utils/LocalNotifyManager.dart';
 import 'package:omicxvn/widgets/themes.dart';
 import 'package:provider/provider.dart';
 import 'package:workmanager/workmanager.dart';
@@ -30,21 +31,33 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 /// Create a [AndroidNotificationChannel] for heads up notifications
-late AndroidNotificationChannel channel;
+// late AndroidNotificationChannel channel;
 
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
-late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+// late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-void callbackDispatcher() {
-  Workmanager.executeTask((task, inputData) {
-    LocalNotifyManager().showNotification();
-    return Future.value(true);
-  });
-}
+// void callbackDispatcher() {
+//   Workmanager.executeTask((task, inputData) {
+//     LocalNotifyManager().showNotification();
+//     return Future.value(true);
+//   });
+// }
 
 void main() async {
   configureDependencies(Environment.dev);
   WidgetsFlutterBinding.ensureInitialized();
+  await AwesomeNotifications().initialize(
+      // set the icon to null if you want to use the default app icon
+      'resource://drawable/app_notification_icon',
+      [
+        NotificationChannel(
+            channelKey: 'basic_channel',
+            channelName: 'Basic notifications',
+            channelDescription: 'Notification channel for basic tests',
+            defaultColor: const Color(0xFF9D50DD),
+            ledColor: Colors.white)
+      ]);
+
   // Workmanager.initialize(
   //   callbackDispatcher,
   // isInDebugMode: true,
@@ -57,23 +70,23 @@ void main() async {
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   if (!kIsWeb) {
-    channel = const AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title
-      'This channel is used for important notifications.', // description
-      importance: Importance.high,
-    );
+    // channel = const AndroidNotificationChannel(
+    //   'high_importance_channel', // id
+    //   'High Importance Notifications', // title
+    //   'This channel is used for important notifications.', // description
+    //   importance: Importance.high,
+    // );
 
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    // flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
     /// Create an Android Notification Channel.
     ///
     /// We use this channel in the `AndroidManifest.xml` file to override the
     /// default FCM channel to enable heads up notifications.
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
+    // await flutterLocalNotificationsPlugin
+    //     .resolvePlatformSpecificImplementation<
+    //         AndroidFlutterLocalNotificationsPlugin>()
+    //     ?.createNotificationChannel(channel);
 
     /// Update the iOS foreground notification presentation options to allow
     /// heads up notifications.
