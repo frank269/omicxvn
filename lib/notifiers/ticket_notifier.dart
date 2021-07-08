@@ -26,9 +26,9 @@ class TicketsNotifier with ChangeNotifier {
     return _ticketList;
   }
 
-  void getData() async {
-    _ticketList = await getIt<ITicketRepository>().getTicket();
-
+  void getData(int skipCount, int maxResult) async {
+    var list = await getIt<ITicketRepository>().getTicket(skipCount, maxResult);
+    _ticketList.addAll(list);
     notifyListeners();
   }
 }
