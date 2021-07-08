@@ -14,10 +14,25 @@ class TicketScreen extends StatefulWidget {
 }
 
 class _TicketScreenState extends State<TicketScreen> {
+  ScrollController _scrollController = ScrollController();
+  int _skipcount = 0;
+  int _maxResult = 20;
   @override
   void initState() {
-    Provider.of<TicketsNotifier>(context, listen: false).getData();
+    Provider.of<TicketsNotifier>(context, listen: false).getData(_skipcount,_maxResult);
     super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        print("loadmore");
+        _skipcount += _maxResult;
+        _getMoreData(_skipcount,_maxResult);
+      }
+    });
+  }
+
+  _getMoreData(int skip, int result) {
+    Provider.of<TicketsNotifier>(context, listen: false).getData(skip,result);
   }
 
   @override
@@ -28,23 +43,25 @@ class _TicketScreenState extends State<TicketScreen> {
         actions: [
           IconButton(
               onPressed: null,
-              icon: Icon(Icons.add, color: Colors.white,))
+              icon: Icon(
+                Icons.add,
+                color: Colors.white,
+              ))
         ],
       ),
       body: Consumer<TicketsNotifier>(
-        builder: (context, tickets, child) =>
-            Container(
-              color: Colors.black12,
-              child: ListView.builder(
-                  itemCount: tickets.getTicketList().length,
-                  itemBuilder: (context, index) {
-                    return TicketItemWidget(ticket: tickets.getTicketList()[index]);
-                  }),
-            ),
+        builder: (context, tickets, child) => Container(
+          color: Colors.black12,
+          child: ListView.builder(
+              controller: _scrollController,
+              itemCount: tickets.getTicketList().length,
+              itemBuilder: (context, index) {
+                return TicketItemWidget(ticket: tickets.getTicketList()[index]);
+              }),
+        ),
       ),
       drawer: MyDrawer(),
     );
   }
+
 }
-
-
