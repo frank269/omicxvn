@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:omicxvn/injection/injection.dart';
 import 'package:omicxvn/interfaces/ITicketRepository.dart';
 import 'package:omicxvn/models/Ticket.dart';
+import 'package:omicxvn/models/param/TicketParam.dart';
 
 class TicketsNotifier with ChangeNotifier {
   List<Ticket> _ticketList = [];
@@ -26,8 +27,13 @@ class TicketsNotifier with ChangeNotifier {
     return _ticketList;
   }
 
-  void getData(int skipCount, int maxResult) async {
-    var list = await getIt<ITicketRepository>().getTicket(skipCount, maxResult);
+  void loadData(TicketParam param) async {
+    _ticketList = await getIt<ITicketRepository>().getTicket(param);
+    notifyListeners();
+  }
+
+  void getData(TicketParam param) async {
+    var list = await getIt<ITicketRepository>().getTicket(param);
     _ticketList.addAll(list);
     notifyListeners();
   }

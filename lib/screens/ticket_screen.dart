@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omicxvn/models/param/TicketParam.dart';
 import 'package:omicxvn/notifiers/ticket_notifier.dart';
 import 'package:omicxvn/widgets/drawer.dart';
 import 'package:omicxvn/components/ticket/TicketItemView.dart';
@@ -19,20 +20,32 @@ class _TicketScreenState extends State<TicketScreen> {
   int _maxResult = 20;
   @override
   void initState() {
-    Provider.of<TicketsNotifier>(context, listen: false).getData(_skipcount,_maxResult);
+    var ticketParam = TicketParam(
+      ticketFilterField: TicketFilterField(
+          campaigns: [], groupProcessing: [], status: ['OPEN']),
+      skipCount: _skipcount,
+      maxResultCount: _maxResult,
+    );
+    Provider.of<TicketsNotifier>(context, listen: false).loadData(ticketParam);
     super.initState();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        print("loadmore");
+      var max = _scrollController.position.maxScrollExtent;
+      if (_scrollController.position.pixels > max * 0.9) {
+        print("load");
         _skipcount += _maxResult;
-        _getMoreData(_skipcount,_maxResult);
+        _getMoreData(_skipcount, _maxResult);
       }
     });
   }
 
   _getMoreData(int skip, int result) {
-    Provider.of<TicketsNotifier>(context, listen: false).getData(skip,result);
+    var ticketParam = TicketParam(
+      ticketFilterField: TicketFilterField(
+          campaigns: [], groupProcessing: [], status: ['OPEN']),
+      skipCount: skip,
+      maxResultCount: result,
+    );
+    Provider.of<TicketsNotifier>(context, listen: false).getData(ticketParam);
   }
 
   @override
@@ -63,5 +76,4 @@ class _TicketScreenState extends State<TicketScreen> {
       drawer: MyDrawer(),
     );
   }
-
 }

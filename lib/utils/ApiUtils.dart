@@ -12,7 +12,6 @@ class ApiUtils {
 
   static Future<http.Response> sendPost(
       String url, dynamic body, Map<String, String> headers) {
-    return client.post(Uri.parse(url),
-        headers: headers, body: convert.jsonEncode(body));
+    return client.post(Uri.parse(url), headers: headers, body: body);
   }
 }

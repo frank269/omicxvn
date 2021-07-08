@@ -3,8 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
+import 'package:omicxvn/notifiers/auth_notifier.dart';
 import 'package:omicxvn/notifiers/call_notifier.dart';
 import 'package:omicxvn/notifiers/detail_notifier.dart';
 import 'package:omicxvn/notifiers/posts_notifier.dart';
@@ -18,110 +18,25 @@ import 'package:omicxvn/injection/injection.dart';
 import 'package:omicxvn/screens/register_screen.dart';
 import 'package:omicxvn/screens/test_notification_screen.dart';
 import 'package:omicxvn/screens/ticket_screen.dart';
-// import 'package:omicxvn/utils/LocalNotifyManager.dart';
+import 'package:omicxvn/utils/FirebaseManager.dart';
 import 'package:omicxvn/widgets/themes.dart';
 import 'package:provider/provider.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'notifiers/auth_provider.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
-}
-
-/// Create a [AndroidNotificationChannel] for heads up notifications
-// late AndroidNotificationChannel channel;
-
-/// Initialize the [FlutterLocalNotificationsPlugin] package.
-// late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
-
-// void callbackDispatcher() {
-//   Workmanager.executeTask((task, inputData) {
-//     LocalNotifyManager().showNotification();
-//     return Future.value(true);
-//   });
-// }
-
 void main() async {
   configureDependencies(Environment.dev);
   WidgetsFlutterBinding.ensureInitialized();
-  await AwesomeNotifications().initialize(
-      // set the icon to null if you want to use the default app icon
-      'resource://drawable/app_notification_icon',
-      [
-        NotificationChannel(
-            channelKey: 'basic_channel',
-            channelName: 'Basic notifications',
-            channelDescription: 'Notification channel for basic tests',
-            defaultColor: const Color(0xFF9D50DD),
-            ledColor: Colors.white)
-      ]);
-
-  // Workmanager.initialize(
-  //   callbackDispatcher,
-  // isInDebugMode: true,
-  // );
-  // Workmanager.registerPeriodicTask(
-  //   "2",
-  //   "simplePeriodicTask",
-  //   frequency: Duration(minutes: 15),
-  // );
-  await Firebase.initializeApp();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  if (!kIsWeb) {
-    // channel = const AndroidNotificationChannel(
-    //   'high_importance_channel', // id
-    //   'High Importance Notifications', // title
-    //   'This channel is used for important notifications.', // description
-    //   importance: Importance.high,
-    // );
-
-    // flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-    /// Create an Android Notification Channel.
-    ///
-    /// We use this channel in the `AndroidManifest.xml` file to override the
-    /// default FCM channel to enable heads up notifications.
-    // await flutterLocalNotificationsPlugin
-    //     .resolvePlatformSpecificImplementation<
-    //         AndroidFlutterLocalNotificationsPlugin>()
-    //     ?.createNotificationChannel(channel);
-
-    /// Update the iOS foreground notification presentation options to allow
-    /// heads up notifications.
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-  }
-
-  var settings = await FirebaseMessaging.instance.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: true,
-    sound: true,
-  );
-
-  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    print('User granted permission');
-  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-    print('User granted provisional permission');
-  } else {
-    print('User declined or has not accepted permission');
-  }
+  await configureFirebase();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => PostsNotifier()),
       ChangeNotifierProvider(create: (context) => DetailNotifier()),
       ChangeNotifierProvider(create: (context) => CallNotifier()),
       ChangeNotifierProvider(create: (context) => AuthProvider()),
-      ChangeNotifierProvider(create: (context) => TicketsNotifier())
+      ChangeNotifierProvider(create: (context) => TicketsNotifier()),
+      ChangeNotifierProvider(create: (context) => AuthNotifier()),
     ],
     child: MyApp(),
   ));

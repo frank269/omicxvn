@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:omicxvn/components/common/conditional_builder.dart';
 import 'package:omicxvn/components/common/default_widget.dart';
+import 'package:omicxvn/notifiers/auth_notifier.dart';
 import 'package:omicxvn/notifiers/auth_provider.dart';
 import 'package:omicxvn/notifiers/call_notifier.dart';
 import 'package:omicxvn/screens/home_screen.dart';
@@ -17,7 +18,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
-  String errorMsg = '';
   bool isPassword = true;
   var isBusy = false;
   setBusy(bool isbusy) {
@@ -28,6 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    emailController.text = 'diemlt';
+    passwordController.text = '123456aA@';
     super.initState();
   }
 
@@ -35,20 +37,22 @@ class _LoginScreenState extends State<LoginScreen> {
   moveToHome(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       setBusy(true);
-      var _authProvider = Provider.of<AuthProvider>(context, listen: false);
+      // var _authProvider = Provider.of<AuthProvider>(context, listen: false);
+      var _authProvider = Provider.of<AuthNotifier>(context, listen: false);
       try {
-        if (await _authProvider.loginUser(
-            emailController.text, passwordController.text)) {
+        // if (await _authProvider.loginUser(
+        //     emailController.text, passwordController.text)) {
+        if (await _authProvider.login(
+                emailController.text, passwordController.text) ==
+            AuthState.success) {
           Provider.of<CallNotifier>(context, listen: false).register();
           await Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         } else {
           setBusy(false);
-          setState(() => errorMsg = 'UserName or Password is incorrect!');
         }
       } catch (e) {
         print(e);
         setBusy(false);
-        setState(() => errorMsg = e.toString());
       }
     }
   }
@@ -82,13 +86,18 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 20,
               ),
-              Text(
-                errorMsg,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: Colors.red,
-                ),
+              Consumer<AuthNotifier>(
+                builder: (context, auth, child) =>
+                    auth.authState == AuthState.failed
+                        ? Text(
+                            "UserName or Password is incorrect!",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colors.red,
+                            ),
+                          )
+                        : Container(),
               ),
               Padding(
                 padding:
@@ -108,9 +117,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
                           return 'Email cannot be empty';
-                        } else if (!(value?.contains('@') ?? false)) {
-                          return 'Email format is wrong!';
                         }
+                        // else if (!(value?.contains('@') ?? false)) {
+                        //   return 'Email format is wrong!';
+                        // }
                         return null;
                       },
                     ),

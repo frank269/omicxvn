@@ -34,7 +34,6 @@ class _TicketItemWidgetState extends State<TicketItemWidget> {
   }
 
   _showAdvanced() {
-    print(isShow);
     setState(() {
       isShow = !isShow;
     });
