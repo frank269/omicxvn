@@ -226,7 +226,9 @@ class Ticket {
       closedDate: map['closedDate'],
       listAttachFile: List<ListAttachFile?>.from(
           map['listAttachFile']?.map((x) => ListAttachFile?.fromMap(x))),
-      relationTicket: List<int>.from(map['relationTicket']),
+      relationTicket: map['relationTicket'] == null
+          ? map['relationTicket']
+          : List<int>.from(map['relationTicket']),
       assigneeAgentId: map['assigneeAgentId'],
       isFollow: map['isFollow'],
       totalScore: map['totalScore'],
@@ -368,12 +370,14 @@ class UserGroupDropdown {
     };
   }
 
-  factory UserGroupDropdown.fromMap(Map<String, dynamic> map) {
+  factory UserGroupDropdown.fromMap(Map<String, dynamic>? map) {
+    if (map == null) return UserGroupDropdown();
     return UserGroupDropdown(
       value: map['value'],
       displayName: map['displayName'],
       groupId: map['groupId'],
-      groupIds: List<int>.from(map['groupIds']),
+      groupIds:
+          map['groupIds'] == null ? null : List<int>.from(map['groupIds']),
       ticketType: map['ticketType'],
     );
   }
@@ -451,7 +455,8 @@ class ListAttachFile {
     };
   }
 
-  factory ListAttachFile.fromMap(Map<String, dynamic> map) {
+  factory ListAttachFile.fromMap(Map<String, dynamic>? map) {
+    if (map == null) return ListAttachFile();
     return ListAttachFile(
       id: map['id'],
       fileName: map['fileName'],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omicxvn/models/Ticket.dart';
 import 'package:omicxvn/notifiers/ticket/ticket_detail_notifier.dart';
 import 'package:omicxvn/screens/ticket/pager/t_general_screen.dart';
 import 'package:provider/provider.dart';
@@ -10,38 +11,44 @@ class TicketDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<TicketDetailNotifier>(context,listen: false).loadData(id);
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-          appBar: AppBar(
-            title: Text("Chi tiết ticket"),
-            bottom: TabBar(
-              tabs: [
-                Tab(
-                  text: "Chung",
+    return FutureBuilder(
+        future: Provider.of<TicketDetailNotifier>(context, listen: false)
+            .loadData(id),
+        builder: (context, snapshot) {
+          return DefaultTabController(
+            length: 4,
+            child: Scaffold(
+                appBar: AppBar(
+                  title: Text("Chi tiết ticket"),
+                  bottom: TabBar(
+                    tabs: [
+                      Tab(
+                        text: "Chung",
+                      ),
+                      Tab(
+                        text: "Liên quan",
+                      ),
+                      Tab(
+                        text: "Lịch sử cập nhập",
+                      ),
+                      Tab(
+                        text: "File đính kèm",
+                      )
+                    ],
+                  ),
                 ),
-                Tab(
-                  text: "Liên quan",
-                ),
-                Tab(
-                  text: "Lịch sử cập nhập",
-                ),
-                Tab(
-                  text: "File đính kèm",
-                )
-              ],
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              Consumer<TicketDetailNotifier>(builder: (context, tickets, child) =>
-              TGeneralScreen(ticket: tickets.getTicket())),
-              Text("Liên quan"),
-              Text("Lịch sử cập nhập"),
-              Text("File đính kèm"),
-            ],
-          )),
-    );
+                body: TabBarView(
+                  children: [
+                    TGeneralScreen(
+                        ticket: snapshot.data == null
+                            ? Ticket()
+                            : (snapshot.data as Ticket)),
+                    Text("Liên quan"),
+                    Text("Lịch sử cập nhập"),
+                    Text("File đính kèm"),
+                  ],
+                )),
+          );
+        });
   }
 }

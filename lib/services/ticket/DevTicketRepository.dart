@@ -8,13 +8,12 @@ import 'package:omicxvn/utils/ApiUtils.dart';
 import 'dart:convert' as convert;
 
 @Singleton(as: ITicketRepository, env: [Environment.dev])
-
 class DevTicketRepository implements ITicketRepository {
-   get headers => {
-    "Authorization": "Bearer " + AuthNotifier.authenToken,
-    "abp.tenantid": "23",
-    "Content-Type": "application/json"
-  };
+  get headers => {
+        "Authorization": "Bearer " + AuthNotifier.authenToken,
+        "abp.tenantid": "23",
+        "Content-Type": "application/json"
+      };
 
   @override
   Future<List<Ticket>> getTicket(TicketParam ticketParam) async {
@@ -29,7 +28,7 @@ class DevTicketRepository implements ITicketRepository {
       if (body['success']) {
         var data = body['result'];
         return List.from(data['items'])
-            .map<Ticket>((ticket) => Ticket.fromJson(ticket))
+            .map<Ticket>((ticket) => Ticket.fromMap(ticket))
             .toList();
       } else
         return List<Ticket>.empty();
@@ -38,18 +37,17 @@ class DevTicketRepository implements ITicketRepository {
   }
 
   @override
-  Future<Ticket> getDetailTicket(int id) async{
+  Future<Ticket> getDetailTicket(int id) async {
     var response = await ApiUtils.sendGet(
-      base: BASE_API,
-      path: TICKET_DETAIL_PATH,
-      headers: headers,
-      params: {"id": "$id"}
-    );
+        base: BASE_API,
+        path: TICKET_DETAIL_PATH,
+        headers: headers,
+        params: {"id": "$id"});
     if (response.statusCode == 200) {
       var body = convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
       if (body['success']) {
         var data = body['result'];
-        return Ticket.fromJson(data);
+        return Ticket.fromMap(data);
       } else
         return Ticket();
     } else
