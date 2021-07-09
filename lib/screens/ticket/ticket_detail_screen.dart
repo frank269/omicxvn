@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:omicxvn/notifiers/ticket/ticket_detail_notifier.dart';
 import 'package:omicxvn/screens/ticket/pager/t_general_screen.dart';
+import 'package:provider/provider.dart';
 
 class TicketDetailScreen extends StatelessWidget {
-  const TicketDetailScreen({Key? key}) : super(key: key);
+  final int id;
+  const TicketDetailScreen({Key? key, required this.id}) : super(key: key);
   static const String routeName = '/ticket_detail';
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<TicketDetailNotifier>(context,listen: false).loadData(id);
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -31,7 +35,8 @@ class TicketDetailScreen extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              TGeneralScreen(),
+              Consumer<TicketDetailNotifier>(builder: (context, tickets, child) =>
+              TGeneralScreen(ticket: tickets.getTicket())),
               Text("Liên quan"),
               Text("Lịch sử cập nhập"),
               Text("File đính kèm"),

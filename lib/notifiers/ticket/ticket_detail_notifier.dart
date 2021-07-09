@@ -5,7 +5,7 @@ import 'package:omicxvn/interfaces/ITicketRepository.dart';
 import 'package:omicxvn/models/Ticket.dart';
 
 class TicketDetailNotifier with ChangeNotifier {
-    Ticket? _ticket;
+    Ticket _ticket = Ticket();
 
     setTicket(Ticket t) {
       _ticket = t;
@@ -13,11 +13,11 @@ class TicketDetailNotifier with ChangeNotifier {
     }
 
     deleteTicket() {
-      _ticket = null;
+      _ticket = Ticket();
       notifyListeners();
     }
 
-    Ticket? getTicket() {
+    Ticket getTicket() {
       return _ticket;
     }
 

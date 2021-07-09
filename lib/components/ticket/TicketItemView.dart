@@ -80,7 +80,7 @@ class _TicketItemWidgetState extends State<TicketItemWidget> {
                             ],
                           ),
                           onTap: () => Navigator.pushNamed(
-                              context, TicketDetailScreen.routeName),
+                              context, TicketDetailScreen.routeName, arguments: widget.ticket.id),
                         ),
                         flex: 1,
                       ),

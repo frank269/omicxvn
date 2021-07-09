@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.6+9"
+  bloc:
+    dependency: transitive
+    description:
+      name: bloc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -176,6 +183,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.10"
+  equatable:
+    dependency: "direct main"
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -279,6 +293,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_bloc:
+    dependency: "direct main"
+    description:
+      name: flutter_bloc
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "7.0.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -286,13 +307,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
-  flutter_svg:
-    dependency: "direct main"
-    description:
-      name: flutter_svg
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.22.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -317,6 +331,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.0.7"
+  formz:
+    dependency: "direct main"
+    description:
+      name: formz
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.0"
   get_it:
     dependency: "direct main"
     description:
@@ -499,20 +520,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-  path_drawing:
-    dependency: transitive
-    description:
-      name: path_drawing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.1"
-  path_parsing:
-    dependency: transitive
-    description:
-      name: path_parsing
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1"
   pedantic:
     dependency: transitive
     description:
@@ -520,13 +527,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
-  petitparser:
-    dependency: transitive
-    description:
-      name: petitparser
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.1.0"
   platform:
     dependency: transitive
     description:
@@ -735,13 +735,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.4"
-  xml:
-    dependency: transitive
-    description:
-      name: xml
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.1.2"
   yaml:
     dependency: transitive
     description:

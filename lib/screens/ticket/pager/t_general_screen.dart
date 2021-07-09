@@ -1,8 +1,10 @@
 
 import 'package:flutter/material.dart';
+import 'package:omicxvn/models/Ticket.dart';
 
 class TGeneralScreen extends StatelessWidget {
-  const TGeneralScreen({Key? key}) : super(key: key);
+  final Ticket ticket;
+  const TGeneralScreen({Key? key, required this.ticket}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class TGeneralScreen extends StatelessWidget {
                     flex: 2,
                   ),
                   Expanded(
-                    child: Text(""),
+                    child: Text("${ticket.status}"),
                     flex: 3,
                   ),
                 ],
@@ -58,7 +60,7 @@ class TGeneralScreen extends StatelessWidget {
                     flex: 2,
                   ),
                   Expanded(
-                    child: Text(""),
+                    child: Text("${ticket.ticketType}"),
                     flex: 3,
                   ),
                 ],
@@ -76,7 +78,7 @@ class TGeneralScreen extends StatelessWidget {
                     flex: 2,
                   ),
                   Expanded(
-                    child: Text(""),
+                    child: Text("${ticket.priority}"),
                     flex: 3,
                   ),
                 ],
@@ -94,7 +96,7 @@ class TGeneralScreen extends StatelessWidget {
                     flex: 2,
                   ),
                   Expanded(
-                    child: Text(""),
+                    child: Text("${ticket.completedDate}"),
                     flex: 3,
                   ),
                 ],
@@ -112,7 +114,7 @@ class TGeneralScreen extends StatelessWidget {
                     flex: 2,
                   ),
                   Expanded(
-                    child: Text(""),
+                    child: Text("${ticket.agentAssignee}"),
                     flex: 3,
                   ),
                 ],
@@ -130,7 +132,7 @@ class TGeneralScreen extends StatelessWidget {
                     flex: 2,
                   ),
                   Expanded(
-                    child: Text(""),
+                    child: Text("${ticket.groupProcessing}"),
                     flex: 3,
                   ),
                 ],
@@ -148,7 +150,7 @@ class TGeneralScreen extends StatelessWidget {
                     flex: 2,
                   ),
                   Expanded(
-                    child: Text(""),
+                    child: Text("${ticket.creationUser}"),
                     flex: 3,
                   ),
                 ],
@@ -166,7 +168,7 @@ class TGeneralScreen extends StatelessWidget {
                     flex: 2,
                   ),
                   Expanded(
-                    child: Text(""),
+                    child: Text("${ticket.creationDate}"),
                     flex: 3,
                   ),
                 ],
@@ -184,7 +186,7 @@ class TGeneralScreen extends StatelessWidget {
                     flex: 2,
                   ),
                   Expanded(
-                    child: Text(""),
+                    child: Text("${ticket.lastUpdateDate}"),
                     flex: 3,
                   ),
                 ],
