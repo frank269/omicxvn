@@ -13,7 +13,6 @@ import 'package:omicxvn/services/ticket/DevTicketRepository.dart';
 
 import '../interfaces/IPostRepository.dart' as _i3;
 import '../services/post/DevPostRepository.dart' as _i4;
-import '../services/post/ProdPostRepository.dart' as _i5;
 
 const String _dev = 'dev';
 const String _prod = 'prod';
@@ -25,8 +24,6 @@ _i1.GetIt $initGetIt(_i1.GetIt get,
   final gh = _i2.GetItHelper(get, environment, environmentFilter);
   gh.singleton<_i3.IPostRepository>(_i4.DevPostRepository(),
       registerFor: {_dev});
-  gh.singleton<_i3.IPostRepository>(_i5.ProdPostRepository(),
-      registerFor: {_prod});
   gh.singleton<ITicketRepository>(DevTicketRepository(), registerFor: {_dev});
   gh.singleton<IAuthRepository>(DevAuthRepository(), registerFor: {_dev});
   return get;

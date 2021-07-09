@@ -18,6 +18,8 @@ import 'package:omicxvn/injection/injection.dart';
 import 'package:omicxvn/screens/register_screen.dart';
 import 'package:omicxvn/screens/test_notification_screen.dart';
 import 'package:omicxvn/screens/ticket_screen.dart';
+import 'package:omicxvn/test_bloc/authentication/authentication.dart';
+import 'package:omicxvn/test_bloc/test.dart';
 import 'package:omicxvn/utils/FirebaseManager.dart';
 import 'package:omicxvn/widgets/themes.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +40,11 @@ void main() async {
       ChangeNotifierProvider(create: (context) => TicketsNotifier()),
       ChangeNotifierProvider(create: (context) => AuthNotifier()),
     ],
-    child: MyApp(),
+    // child: Test(
+    //   authenticationRepository: AuthenticationRepository(),
+    //   userRepository: UserRepository(),
+    // ),
+    child: const MyApp(),
   ));
 }
 
