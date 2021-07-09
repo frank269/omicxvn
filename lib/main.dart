@@ -8,7 +8,8 @@ import 'package:omicxvn/notifiers/auth_notifier.dart';
 import 'package:omicxvn/notifiers/call_notifier.dart';
 import 'package:omicxvn/notifiers/detail_notifier.dart';
 import 'package:omicxvn/notifiers/posts_notifier.dart';
-import 'package:omicxvn/notifiers/ticket_notifier.dart';
+import 'package:omicxvn/notifiers/ticket/ticket_detail_notifier.dart';
+import 'package:omicxvn/notifiers/ticket/ticket_notifier.dart';
 import 'package:omicxvn/screens/add_post_screen.dart';
 import 'package:omicxvn/screens/detail_screen.dart';
 import 'package:omicxvn/screens/dialpad_screen.dart';
@@ -17,7 +18,8 @@ import 'package:omicxvn/screens/login_screen.dart';
 import 'package:omicxvn/injection/injection.dart';
 import 'package:omicxvn/screens/register_screen.dart';
 import 'package:omicxvn/screens/test_notification_screen.dart';
-import 'package:omicxvn/screens/ticket_screen.dart';
+import 'package:omicxvn/screens/ticket/ticket_detail_screen.dart';
+import 'package:omicxvn/screens/ticket/ticket_screen.dart';
 import 'package:omicxvn/test_bloc/authentication/authentication.dart';
 import 'package:omicxvn/test_bloc/test.dart';
 import 'package:omicxvn/utils/FirebaseManager.dart';
@@ -39,6 +41,7 @@ void main() async {
       ChangeNotifierProvider(create: (context) => AuthProvider()),
       ChangeNotifierProvider(create: (context) => TicketsNotifier()),
       ChangeNotifierProvider(create: (context) => AuthNotifier()),
+      ChangeNotifierProvider(create: (context) => TicketDetailNotifier()),
     ],
     // child: Test(
     //   authenticationRepository: AuthenticationRepository(),
@@ -61,7 +64,7 @@ class MyApp extends StatelessWidget {
       darkTheme: MyTheme.darkTheme(context),
       debugShowCheckedModeBanner: false,
       initialRoute: LoginScreen.routeName,
-      onGenerateRoute: (settings) {
+      onGenerateRoute: (RouteSettings settings) {
         var routes = <String, WidgetBuilder>{
           LoginScreen.routeName: (context) => LoginScreen(),
           HomeScreen.routeName: (context) => const HomeScreen(title: 'Home'),
@@ -71,7 +74,9 @@ class MyApp extends StatelessWidget {
           DialPad.routeName: (context) => DialPad(),
           NotificationScreen.routeName: (context) => const NotificationScreen(),
           TicketScreen.routeName: (context) =>
-              const TicketScreen(title: 'Quản lý ticket')
+              const TicketScreen(title: 'Quản lý ticket'),
+          TicketDetailScreen.routeName: (context) =>
+              TicketDetailScreen(id: settings.arguments as int)
         };
         var builder = routes[settings.name] as WidgetBuilder;
         return MaterialPageRoute<dynamic>(

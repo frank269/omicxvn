@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:omicxvn/models/param/TicketParam.dart';
-import 'package:omicxvn/notifiers/ticket_notifier.dart';
+import 'package:omicxvn/notifiers/ticket/ticket_notifier.dart';
 import 'package:omicxvn/widgets/drawer.dart';
 import 'package:omicxvn/components/ticket/TicketItemView.dart';
 import 'package:provider/provider.dart';
