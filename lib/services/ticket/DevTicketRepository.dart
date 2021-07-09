@@ -9,6 +9,8 @@ import 'dart:convert' as convert;
 @Singleton(as: ITicketRepository, env: [Environment.dev])
 final String LOAD_TICKET =
     ApiUtils.root_api + "api/services/app/Ticket/LoadTicket";
+final String DETAIL_TICKET =
+    ApiUtils.root_api + "api/services/app/Ticket/GetDetailTicket";
 
 class DevTicketRepository implements ITicketRepository {
   @override
@@ -31,5 +33,11 @@ class DevTicketRepository implements ITicketRepository {
         return List<Ticket>.empty();
     } else
       return List<Ticket>.empty();
+  }
+
+  @override
+  Future<Ticket> getDetailTicket(int id) {
+    // TODO: implement getDetailTicket
+    throw UnimplementedError();
   }
 }

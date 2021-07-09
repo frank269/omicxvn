@@ -6,7 +6,7 @@ import 'package:omicxvn/screens/dialpad_screen.dart';
 import 'package:omicxvn/screens/home_screen.dart';
 import 'package:omicxvn/screens/login_screen.dart';
 import 'package:omicxvn/screens/test_notification_screen.dart';
-import 'package:omicxvn/screens/ticket_screen.dart';
+import 'package:omicxvn/screens/ticket/ticket_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);

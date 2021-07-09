@@ -1,6 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:omicxvn/screens/ticket_screen.dart';
+import 'package:omicxvn/screens/ticket/ticket_screen.dart';
 import 'package:omicxvn/utils/LocalNotifyManager.dart';
 import 'package:omicxvn/widgets/drawer.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
