@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:injectable/injectable.dart';
 import 'package:omicxvn/notifiers/auth_notifier.dart';
 import 'package:omicxvn/notifiers/call_notifier.dart';
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Omicx App',
       themeMode: ThemeMode.light,
       theme: MyTheme.lightTheme(context),

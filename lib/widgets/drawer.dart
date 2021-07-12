@@ -10,7 +10,7 @@ import 'package:omicxvn/screens/ticket/ticket_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);
-
+  static var currentPage = '/';
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -37,8 +37,14 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () =>
-                  Navigator.pushReplacementNamed(context, HomeScreen.routeName),
+              onTap: () {
+                if (currentPage == HomeScreen.routeName) {
+                  Navigator.pop(context);
+                } else {
+                  currentPage = HomeScreen.routeName;
+                  Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+                }
+              },
               leading: Icon(
                 Icons.dashboard,
                 color: Colors.white,
@@ -78,8 +84,15 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () => Navigator.pushReplacementNamed(
-                  context, TicketScreen.routeName),
+              onTap: () {
+                if (currentPage == TicketScreen.routeName) {
+                  Navigator.pop(context);
+                } else {
+                  currentPage = TicketScreen.routeName;
+                  Navigator.pushReplacementNamed(
+                      context, TicketScreen.routeName);
+                }
+              },
               leading: Icon(
                 Icons.credit_card,
                 color: Colors.white,
@@ -91,8 +104,15 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () => Navigator.pushReplacementNamed(
-                  context, NotificationScreen.routeName),
+              onTap: () {
+                if (currentPage == NotificationScreen.routeName) {
+                  Navigator.pop(context);
+                } else {
+                  currentPage = NotificationScreen.routeName;
+                  Navigator.pushReplacementNamed(
+                      context, NotificationScreen.routeName);
+                }
+              },
               leading: Icon(
                 CupertinoIcons.profile_circled,
                 color: Colors.white,
@@ -104,8 +124,14 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () =>
-                  Navigator.pushReplacementNamed(context, DialPad.routeName),
+              onTap: () {
+                if (currentPage == DialPad.routeName) {
+                  Navigator.pop(context);
+                } else {
+                  currentPage = DialPad.routeName;
+                  Navigator.pushReplacementNamed(context, DialPad.routeName);
+                }
+              },
               leading: Icon(
                 CupertinoIcons.dial,
                 color: Colors.white,
@@ -119,8 +145,15 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () => Navigator.pushReplacementNamed(
-                  context, LoginScreen.routeName),
+              onTap: () {
+                if (currentPage == LoginScreen.routeName) {
+                  Navigator.pop(context);
+                } else {
+                  currentPage = LoginScreen.routeName;
+                  Navigator.pushReplacementNamed(
+                      context, LoginScreen.routeName);
+                }
+              },
               leading: Icon(
                 CupertinoIcons.square_arrow_left,
                 color: Colors.white,

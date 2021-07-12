@@ -19,12 +19,6 @@ class _LoginScreenState extends State<LoginScreen> {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   bool isPassword = true;
-  var isBusy = false;
-  setBusy(bool isbusy) {
-    if (mounted) {
-      setState(() => isBusy = isbusy);
-    }
-  }
 
   @override
   void initState() {
@@ -36,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   moveToHome(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      setBusy(true);
       // var _authProvider = Provider.of<AuthProvider>(context, listen: false);
       var _authProvider = Provider.of<AuthNotifier>(context, listen: false);
       try {
@@ -47,12 +40,9 @@ class _LoginScreenState extends State<LoginScreen> {
             AuthState.success) {
           // Provider.of<CallNotifier>(context, listen: false).register();
           await Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-        } else {
-          setBusy(false);
         }
       } catch (e) {
         print(e);
-        setBusy(false);
       }
     }
   }
@@ -105,7 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   children: [
                     defaultFormField(
-                      enable: !isBusy,
                       controller: emailController,
                       type: TextInputType.emailAddress,
                       hintText: 'Enter your email',
@@ -125,7 +114,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     defaultFormField(
-                      enable: !isBusy,
                       controller: passwordController,
                       type: TextInputType.emailAddress,
                       hintText: 'Enter your password',
@@ -156,13 +144,9 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 20,
               ),
-              ConditionalBuilder(
-                condition: !isBusy,
-                builder: (context) => defautButton(
-                  text: 'Login',
-                  onclicked: () => moveToHome(context),
-                ),
-                fallback: (context) => const CircularProgressIndicator(),
+              defautButton(
+                text: 'Login',
+                onclicked: () => moveToHome(context),
               ),
               const SizedBox(
                 height: 20,

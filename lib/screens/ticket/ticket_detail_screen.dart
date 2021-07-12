@@ -4,51 +4,57 @@ import 'package:omicxvn/notifiers/ticket/ticket_detail_notifier.dart';
 import 'package:omicxvn/screens/ticket/pager/t_general_screen.dart';
 import 'package:provider/provider.dart';
 
-class TicketDetailScreen extends StatelessWidget {
+class TicketDetailScreen extends StatefulWidget {
   final int id;
   const TicketDetailScreen({Key? key, required this.id}) : super(key: key);
   static const String routeName = '/ticket_detail';
 
   @override
+  _TicketDetailScreenState createState() => _TicketDetailScreenState();
+}
+
+class _TicketDetailScreenState extends State<TicketDetailScreen> {
+  @override
+  void initState() {
+    Provider.of<TicketDetailNotifier>(context, listen: false)
+        .loadData(widget.id);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Provider.of<TicketDetailNotifier>(context, listen: false)
-            .loadData(id),
-        builder: (context, snapshot) {
-          return DefaultTabController(
-            length: 4,
-            child: Scaffold(
-                appBar: AppBar(
-                  title: Text("Chi tiết ticket"),
-                  bottom: TabBar(
-                    tabs: [
-                      Tab(
-                        text: "Chung",
-                      ),
-                      Tab(
-                        text: "Liên quan",
-                      ),
-                      Tab(
-                        text: "Lịch sử cập nhập",
-                      ),
-                      Tab(
-                        text: "File đính kèm",
-                      )
-                    ],
+    return Consumer<TicketDetailNotifier>(
+      builder: (context, data, child) => DefaultTabController(
+        length: 4,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text("Chi tiết ticket"),
+              bottom: TabBar(
+                tabs: [
+                  Tab(
+                    text: "Chung",
                   ),
-                ),
-                body: TabBarView(
-                  children: [
-                    TGeneralScreen(
-                        ticket: snapshot.data == null
-                            ? Ticket()
-                            : (snapshot.data as Ticket)),
-                    Text("Liên quan"),
-                    Text("Lịch sử cập nhập"),
-                    Text("File đính kèm"),
-                  ],
-                )),
-          );
-        });
+                  Tab(
+                    text: "Liên quan",
+                  ),
+                  Tab(
+                    text: "Lịch sử cập nhập",
+                  ),
+                  Tab(
+                    text: "File đính kèm",
+                  )
+                ],
+              ),
+            ),
+            body: TabBarView(
+              children: [
+                TGeneralScreen(ticket: data.getTicket()),
+                Text("Liên quan"),
+                Text("Lịch sử cập nhập"),
+                Text("File đính kèm"),
+              ],
+            )),
+      ),
+    );
   }
 }

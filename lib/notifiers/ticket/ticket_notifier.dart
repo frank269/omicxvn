@@ -27,7 +27,7 @@ class TicketsNotifier with ChangeNotifier {
     return _ticketList;
   }
 
-  void loadData(TicketParam param) async {
+  Future loadData(TicketParam param) async {
     _ticketList = await getIt<ITicketRepository>().getTicket(param);
     notifyListeners();
   }

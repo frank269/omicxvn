@@ -20,6 +20,7 @@ class _TicketScreenState extends State<TicketScreen> {
   int _maxResult = 20;
   @override
   void initState() {
+    super.initState();
     var ticketParam = TicketParam(
       ticketFilterField: TicketFilterField(
           campaigns: [], groupProcessing: [], status: ['OPEN']),
@@ -27,7 +28,7 @@ class _TicketScreenState extends State<TicketScreen> {
       maxResultCount: _maxResult,
     );
     Provider.of<TicketsNotifier>(context, listen: false).loadData(ticketParam);
-    super.initState();
+
     _scrollController.addListener(() {
       var max = _scrollController.position.maxScrollExtent;
       if (_scrollController.position.pixels > max * 0.9) {

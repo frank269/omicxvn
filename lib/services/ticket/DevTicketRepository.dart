@@ -7,8 +7,10 @@ import 'package:omicxvn/notifiers/auth_notifier.dart';
 import 'package:omicxvn/utils/ApiUtils.dart';
 import 'dart:convert' as convert;
 
+import 'package:omicxvn/utils/base_controller.dart';
+
 @Singleton(as: ITicketRepository, env: [Environment.dev])
-class DevTicketRepository implements ITicketRepository {
+class DevTicketRepository with BaseController implements ITicketRepository {
   get headers => {
         "Authorization": "Bearer " + AuthNotifier.authenToken,
         "abp.tenantid": "23",
@@ -22,18 +24,17 @@ class DevTicketRepository implements ITicketRepository {
       path: TICKET_LOAD_PATH,
       headers: headers,
       body: ticketParam.toJson(),
-    );
-    if (response.statusCode == 200) {
-      var body = convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+    ).catchError(handleError);
+    if (response != null) {
+      var body = convert.jsonDecode(response);
       if (body['success']) {
         var data = body['result'];
         return List.from(data['items'])
             .map<Ticket>((ticket) => Ticket.fromMap(ticket))
             .toList();
-      } else
-        return List<Ticket>.empty();
-    } else
-      return List<Ticket>.empty();
+      }
+    }
+    return List<Ticket>.empty();
   }
 
   @override
@@ -42,15 +43,14 @@ class DevTicketRepository implements ITicketRepository {
         base: BASE_API,
         path: TICKET_DETAIL_PATH,
         headers: headers,
-        params: {"id": "$id"});
-    if (response.statusCode == 200) {
-      var body = convert.jsonDecode(convert.utf8.decode(response.bodyBytes));
+        params: {"id": "$id"}).catchError(handleError);
+    if (response != null) {
+      var body = convert.jsonDecode(response);
       if (body['success']) {
         var data = body['result'];
         return Ticket.fromMap(data);
-      } else
-        return Ticket();
-    } else
-      return Ticket();
+      }
+    }
+    return Ticket();
   }
 }
