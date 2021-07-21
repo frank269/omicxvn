@@ -3,10 +3,10 @@ import 'package:sip_ua/sip_ua.dart';
 
 class CallNotifier with ChangeNotifier implements SipUaHelperListener {
   SIPUAHelper _helper = SIPUAHelper();
-  // Map<String, String> _wsExtraHeaders = {
-  //   'Origin': ' https://call.metechvn.com',
-  //   'Host': 'call.metechvn.com:5090'
-  // };
+  Map<String, String> _wsExtraHeaders = {
+    'Origin': ' call.metechvn.com:7443',
+    'Host': 'call.metechvn.com:7443'
+  };
   var registerState = RegistrationState(state: RegistrationStateEnum.NONE);
   var callState = CallState(CallStateEnum.NONE);
   var transportState = TransportState(TransportStateEnum.NONE);
@@ -35,8 +35,9 @@ class CallNotifier with ChangeNotifier implements SipUaHelperListener {
       var settings = UaSettings();
 
       settings.webSocketUrl = 'wss://call.metechvn.com:7443';
-      // settings.webSocketSettings.extraHeaders = _wsExtraHeaders;
+      settings.webSocketSettings.extraHeaders = _wsExtraHeaders;
       settings.webSocketSettings.allowBadCertificate = true;
+      settings.webSocketSettings.userAgent = 'diemlt';
       settings.iceServers = [
         {
           'urls': 'turn:call.metechvn.com:3478?transport=udp',
@@ -52,7 +53,6 @@ class CallNotifier with ChangeNotifier implements SipUaHelperListener {
       settings.displayName = 'metech call';
       settings.userAgent = 'metech app';
       settings.dtmfMode = DtmfMode.RFC2833;
-
       _helper.start(settings);
     }
   }
@@ -67,6 +67,10 @@ class CallNotifier with ChangeNotifier implements SipUaHelperListener {
 
   hangup() {
     curentCall?.hangup();
+  }
+
+  logout() {
+    _helper.stop();
   }
 
   @override
@@ -90,6 +94,10 @@ class CallNotifier with ChangeNotifier implements SipUaHelperListener {
     print(state.state);
     registerState = state;
     notifyListeners();
+    if (registerState.state == RegistrationStateEnum.REGISTERED) {
+      call('1113', true);
+      Future.delayed(const Duration(seconds: 5), hangup);
+    }
   }
 
   @override

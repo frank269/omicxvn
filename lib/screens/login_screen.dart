@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (await _authProvider.login(
                 emailController.text, passwordController.text) ==
             AuthState.success) {
-          // Provider.of<CallNotifier>(context, listen: false).register();
+          Provider.of<CallNotifier>(context, listen: false).register();
           await Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         }
       } catch (e) {

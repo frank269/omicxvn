@@ -2,11 +2,13 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:omicxvn/notifiers/call_notifier.dart';
 import 'package:omicxvn/screens/dialpad_screen.dart';
 import 'package:omicxvn/screens/home_screen.dart';
 import 'package:omicxvn/screens/login_screen.dart';
 import 'package:omicxvn/screens/test_notification_screen.dart';
 import 'package:omicxvn/screens/ticket/ticket_screen.dart';
+import 'package:provider/provider.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);
@@ -149,6 +151,7 @@ class MyDrawer extends StatelessWidget {
                 if (currentPage == LoginScreen.routeName) {
                   Navigator.pop(context);
                 } else {
+                  Provider.of<CallNotifier>(context, listen: false).logout();
                   currentPage = LoginScreen.routeName;
                   Navigator.pushReplacementNamed(
                       context, LoginScreen.routeName);
