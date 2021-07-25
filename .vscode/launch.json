@@ -9,6 +9,12 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug"
+        },
+        {
+            "name": "omicxvn (release)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
         }
     ]
 }
