@@ -1,33 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '/app/data/models/models.dart';
+import '/app/data/services/services.dart';
+import 'dashboard_repository.dart';
 
 class DashboardController extends GetxController {
+  final _dashboardRepository = DashboardRepository();
+  final _dbService = Get.find<DbService>();
+  DashboardController() {
+    loadData();
+  }
   loadData() async {
-    print('DashboardController loadData()');
+    final params = DashBoardParam(
+        agentId: _dbService.currentUser?.userId ?? 0,
+        tenantId: _dbService.currentUser?.tenantId ?? 0);
+    var agentInbound = await _dashboardRepository.getAgentInbound(params);
+    var agentOutbound = await _dashboardRepository.getAgentOutbound(params);
+    var agentTask = await _dashboardRepository.getAgentTask(params);
+    var agentTickets = await _dashboardRepository.getAgentTicket(params);
+    dashboardPages.clear();
+    dashboardPages.add(DashboardItem(
+      agentInbound.totals,
+      agentInbound.completedCalls,
+      agentInbound.missedCalls,
+      agentInbound.talkTime,
+    ));
+    dashboardPages.add(DashboardItem(
+      agentOutbound.totals,
+      agentOutbound.completedCalls,
+      agentOutbound.missedCalls,
+      agentOutbound.talkTime,
+    ));
+    dashboardPages.add(DashboardItem(
+      agentTickets.closedTicket,
+      agentTask.assignedTickets,
+      agentTask.participatedCampaigns,
+      agentTask.assignedInteractCards,
+    ));
+
+    update();
   }
 
   var selectedPageIndex = 0.obs;
   var pageController = PageController();
 
-  List<DashboardItem> dashboardPages = [
+  var dashboardPages = [
     DashboardItem(
-      '10',
-      '12',
-      '1',
-      '0',
+      0,
+      0,
+      0,
+      0,
     ),
     DashboardItem(
-      '11',
-      '12',
-      '15',
-      '2',
+      0,
+      0,
+      0,
+      0,
     ),
     DashboardItem(
-      '3',
-      '4',
-      '2',
-      '3',
+      0,
+      0,
+      0,
+      0,
     ),
   ];
 }

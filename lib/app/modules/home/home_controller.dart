@@ -1,14 +1,32 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
-import 'package:sip_ua/sip_ua.dart';
+
 import '../controllers.dart';
+import '/app/data/services/services.dart';
 import '/app/routes/pages.dart';
 
-class HomeController extends GetxController implements SipUaHelperListener {
-  var isShowDialpad = true.obs;
+class HomeController extends GetxController {
   var selectedPageIndex = 0;
+  var isOnCall = false;
+  final _callService = Get.find<CallService>();
+  StreamSubscription? _streamSubscription;
+  HomeController() {}
 
-  HomeController() {
-    Get.find<DashboardController>().loadData();
+  @override
+  void onReady() {
+    super.onReady();
+    isOnCall = _callService.isOnCall.value;
+    _streamSubscription = _callService.isOnCall.stream.listen((value) {
+      isOnCall = value ?? false;
+      update();
+    });
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    _streamSubscription?.cancel();
   }
 
   changeIndex(int index) {
@@ -35,32 +53,11 @@ class HomeController extends GetxController implements SipUaHelperListener {
     update();
   }
 
-  toggleDialpad() {
-    isShowDialpad.value = !isShowDialpad.value;
-    update();
-  }
-
-  gotoDialpad() {
-    Get.toNamed(Routes.DIALPAD);
-  }
-
-  @override
-  void callStateChanged(Call call, CallState state) {
-    // TODO: implement callStateChanged
-  }
-
-  @override
-  void onNewMessage(SIPMessageRequest msg) {
-    // TODO: implement onNewMessage
-  }
-
-  @override
-  void registrationStateChanged(RegistrationState state) {
-    // TODO: implement registrationStateChanged
-  }
-
-  @override
-  void transportStateChanged(TransportState state) {
-    // TODO: implement transportStateChanged
+  onFloatingButtonClicked() {
+    if (isOnCall) {
+      _callService.showDialog();
+    } else {
+      Get.toNamed(Routes.DIALPAD);
+    }
   }
 }

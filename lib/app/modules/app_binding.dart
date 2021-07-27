@@ -9,7 +9,7 @@ class AppBinding extends Bindings {
 
   void injectService() {
     Get.put(DbService());
-    // Get.put(AuthService());
-    Get.put(ConnectivityService());
+    Get.put(CallService());
+    // Get.put(ConnectivityService());
   }
 }

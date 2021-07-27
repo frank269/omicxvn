@@ -6,7 +6,13 @@ import '/app/data/constants/constant.dart';
 import '/app/modules/controllers.dart';
 
 class ContactScreen extends StatelessWidget {
-  const ContactScreen({Key? key}) : super(key: key);
+  bool loadMore(controller, scrollInfo) {
+    if (!controller.isbusy &&
+        scrollInfo.metrics.pixels > scrollInfo.metrics.maxScrollExtent * 0.9) {
+      controller.loadMore();
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +25,14 @@ class ContactScreen extends StatelessWidget {
         ),
       ),
       body: GetBuilder<ContactsController>(
-        builder: (controller) => ListView.builder(
-          controller: controller.scrollController,
-          itemCount: controller.listContacts.length,
-          itemBuilder: (context, index) {
-            return ContactItem(item: controller.listContacts[index]);
-          },
+        builder: (controller) => NotificationListener<ScrollNotification>(
+          child: ListView.builder(
+            itemCount: controller.listContacts.length,
+            itemBuilder: (context, index) {
+              return ContactItem(item: controller.listContacts[index]);
+            },
+          ),
+          onNotification: (notification) => loadMore(controller, notification),
         ),
       ),
     );

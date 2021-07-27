@@ -6,6 +6,14 @@ import 'call_history_controller.dart';
 import 'components/call_history_item.dart';
 
 class CallHistoryScreen extends StatelessWidget {
+  bool loadMore(controller, scrollInfo) {
+    if (!controller.isbusy &&
+        scrollInfo.metrics.pixels > scrollInfo.metrics.maxScrollExtent * 0.9) {
+      controller.loadMore();
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,12 +25,14 @@ class CallHistoryScreen extends StatelessWidget {
         ),
       ),
       body: GetBuilder<CallHistoryController>(
-        builder: (controller) => ListView.builder(
-          controller: controller.scrollController,
-          itemCount: controller.listHistory.length,
-          itemBuilder: (context, index) {
-            return CallHistoryItem(item: controller.listHistory[index]);
-          },
+        builder: (controller) => NotificationListener<ScrollNotification>(
+          child: ListView.builder(
+            itemCount: controller.listHistory.length,
+            itemBuilder: (context, index) {
+              return CallHistoryItem(item: controller.listHistory[index]);
+            },
+          ),
+          onNotification: (notification) => loadMore(controller, notification),
         ),
       ),
     );

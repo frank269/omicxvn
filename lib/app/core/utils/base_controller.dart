@@ -1,7 +1,17 @@
+import 'package:get/get.dart';
+
 import '../core.dart';
+import '/app/data/services/services.dart';
 import 'app_exceptions.dart';
 
 class BaseController {
+  var dbService = Get.find<DbService>();
+  get headers => {
+        "Authorization": "Bearer " + (dbService.currentUser?.accessToken ?? ''),
+        "abp.tenantid": dbService.currentUser?.tenantId.toString(),
+        "Content-Type": "application/json"
+      };
+
   void handleError(error) {
     hideLoading();
     if (error is BadRequestException) {

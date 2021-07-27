@@ -1,10 +1,14 @@
 export 'requests/AuthRequest.dart';
 export 'requests/TicketParam.dart';
+export 'requests/call_history_param.dart';
+export 'requests/contact_param.dart';
+export 'requests/dashboard_param.dart';
 export 'requests/user_request.dart';
 export 'responses/auth_response.dart';
-export 'responses/call_history.dart';
+export 'responses/call_history_response.dart';
 export 'responses/contact.dart';
 export 'responses/dashboard_item.dart';
+export 'responses/dashboard_response.dart';
 export 'responses/onboarding_info.dart';
 export 'responses/post.dart';
 export 'responses/ticket.dart';

@@ -1,19 +1,32 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '/app/modules/contacts/contact_repository.dart';
 import '/app/data/models/models.dart';
 
 class ContactsController extends GetxController {
-  var scrollController = ScrollController();
-  loadData() async {}
+  var _contactRepository = ContactRepository();
+  var listContacts = <Contact>[].obs;
+  var skipCount = 0;
+  var MAX = 20;
+  var isbusy = false;
 
-  var listContacts = [
-    Contact('1242341234', 'So 1'),
-    Contact('0985883881', 'Đoàn văn A'),
-    Contact('123223513235', 'Nguyễn văn K'),
-    Contact('12352531', 'So 1'),
-    Contact('2313123', 'Một hai ba'),
-    Contact('1345125123', 'So 1'),
-    Contact('0985883881', 'So 1'),
-    Contact('12342341234', 'Phạm minh chính'),
-  ];
+  loadData() async {
+    isbusy = true;
+    skipCount = 0;
+    listContacts.value = await _contactRepository.getContactList(
+        ContactParam(maxResultCount: MAX, skipCount: skipCount));
+    update();
+    isbusy = false;
+  }
+
+  loadMore() async {
+    isbusy = true;
+    var result = await _contactRepository.getContactList(
+        ContactParam(maxResultCount: MAX, skipCount: skipCount + MAX));
+    if (result.isNotEmpty) {
+      listContacts.value.addAll(result);
+      skipCount += MAX;
+      update();
+    }
+    isbusy = false;
+  }
 }

@@ -5,7 +5,6 @@ import '/app/core/core.dart';
 import 'dialpad_controller.dart';
 
 class DialpadScreen extends GetView<DialpadController> {
-  final TextEditingController _textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,43 +15,55 @@ class DialpadScreen extends GetView<DialpadController> {
           style: toolbarTextStyle,
         ),
         backgroundColor: toolbarColor,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.circle,
+              color: controller.isRegisted.value ? Colors.green : Colors.red,
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(
-            children: [
-              TextField(
-                enabled: false,
-                keyboardType: TextInputType.text,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+              children: [
+                TextField(
+                  enabled: false,
+                  keyboardType: TextInputType.text,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Colors.black54,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: 'call number',
+                  ),
+                  controller: controller.numberController,
                 ),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
+                Column(
+                  children: _buildNumPad(),
                 ),
-                controller: _textController,
-              ),
-              Column(
-                children: _buildNumPad(),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ActionButton(
-                    icon: Icons.dialer_sip,
-                    fillColor: Colors.green,
-                    onPressed: _handleBackSpace,
-                  )
-                ],
-              )
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ActionButton(
+                      icon: Icons.dialer_sip,
+                      fillColor: Colors.green,
+                      onPressed: controller.call,
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -79,7 +90,7 @@ class DialpadScreen extends GetView<DialpadController> {
       [
         {'+': ''},
         {'0': ''},
-        {'←': ''}
+        {'⌫': ''}
       ],
     ];
 
@@ -91,7 +102,6 @@ class DialpadScreen extends GetView<DialpadController> {
                 children: row
                     .map((label) => ActionButton(
                           title: '${label.keys.first}',
-                          subTitle: '${label.values.first}',
                           onPressed: () => _handleNum(label.keys.first),
                           number: true,
                         ))
@@ -100,18 +110,18 @@ class DialpadScreen extends GetView<DialpadController> {
   }
 
   void _handleBackSpace() {
-    var text = _textController.text;
+    var text = controller.numberController.text;
     if (text.isNotEmpty) {
-      _textController.text = text.substring(0, text.length - 1);
+      controller.numberController.text = text.substring(0, text.length - 1);
     }
   }
 
   void _handleNum(String key) {
-    if (key == '←') {
-      if (_textController.text.isNotEmpty)
-        _textController.text =
-            _textController.text.substring(0, _textController.text.length - 1);
+    if (key == '⌫') {
+      if (controller.numberController.text.isNotEmpty)
+        controller.numberController.text = controller.numberController.text
+            .substring(0, controller.numberController.text.length - 1);
     } else
-      _textController.text += key;
+      controller.numberController.text += key;
   }
 }

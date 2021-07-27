@@ -1,12 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'dialpad_repository.dart';
+import '/app/data/services/services.dart';
 
 class DialpadController extends GetxController {
-  final DialpadRepository repository;
-  DialpadController(this.repository);
+  final TextEditingController numberController = TextEditingController();
+  var isRegisted = false.obs;
+  CallService _callService = Get.find<CallService>();
+  DialpadController() {
+    isRegisted.value = _callService.isRegisted();
+  }
 
-  final _obj = ''.obs;
-  set obj(value) => this._obj.value = value;
-  get obj => this._obj.value;
+  call() {
+    _callService.call(numberController.text);
+  }
 }

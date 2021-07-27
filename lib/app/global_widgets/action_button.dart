@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 
 class ActionButton extends StatefulWidget {
   final String title;
-  final String subTitle;
+  // final String subTitle;
   final IconData? icon;
   final bool checked;
   final bool number;
   final Color? fillColor;
   final Function()? onPressed;
   final Function()? onLongPress;
+  final double size;
 
   const ActionButton(
       {Key? key,
+      this.size = 30,
       this.title = '',
-      this.subTitle = '',
+      // this.subTitle = '',
       this.icon,
       required this.onPressed,
       this.onLongPress,
@@ -46,25 +48,26 @@ class _ActionButtonState extends State<ActionButton> {
               elevation: 10.0,
               shape: const CircleBorder(),
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(20.0),
                 child: widget.number
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                             Text(widget.title,
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
                                   color: widget.fillColor ?? Colors.grey[500],
                                 )),
-                            Text(widget.subTitle.toUpperCase(),
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  color: widget.fillColor ?? Colors.grey[500],
-                                ))
+                            // Text(widget.subTitle.toUpperCase(),
+                            //     style: TextStyle(
+                            //       fontSize: 8,
+                            //       color: widget.fillColor ?? Colors.grey[500],
+                            //     ))
                           ])
                     : Icon(
                         widget.icon,
-                        size: 30.0,
+                        size: widget.size,
                         color: widget.fillColor != null
                             ? Colors.white
                             : (widget.checked ? Colors.white : Colors.blue),

@@ -1,3 +1,4 @@
+import 'package:floatingpanel/floatingpanel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,13 +15,11 @@ class HomeScreen extends StatelessWidget {
         return Scaffold(
           body: getBody(controller),
           bottomNavigationBar: _buildBottomBar(controller),
-          floatingActionButton: controller.isShowDialpad.value
-              ? FloatingActionButton(
-                  onPressed: controller.gotoDialpad,
-                  child: Icon(Icons.dialpad),
-                  backgroundColor: menuColor,
-                )
-              : Container(),
+          floatingActionButton: FloatingActionButton(
+            onPressed: controller.onFloatingButtonClicked,
+            child: Icon(controller.isOnCall ? Icons.phone : Icons.dialpad),
+            backgroundColor: controller.isOnCall ? Colors.green : menuColor,
+          ),
         );
       },
     );

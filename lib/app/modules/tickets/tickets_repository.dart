@@ -1,18 +1,9 @@
-import 'package:get/get.dart';
-
 import '/app/core/core.dart';
 import '/app/data/constants/constant.dart';
 import '/app/data/models/models.dart';
 import '/app/data/services/repository.dart';
-import '/app/data/services/services.dart';
 
 class TicketsRepository with BaseController implements BaseRepository {
-  var dbService = Get.find<DbService>();
-  get headers => {
-        "Authorization": "Bearer " + dbService.provider.getAuthToken(),
-        "abp.tenantid": "24",
-        "Content-Type": "application/json"
-      };
 
   Future<List<Ticket>> getTicket(TicketParam ticketParam) async {
     var response = await ApiUtils.sendPost(
@@ -24,6 +15,7 @@ class TicketsRepository with BaseController implements BaseRepository {
     if (response != null) {
       if (response['success']) {
         var data = response['result'];
+        if (data == []) return List<Ticket>.empty();
         return List.from(data['items'])
             .map<Ticket>((ticket) => Ticket.fromMap(ticket))
             .toList();

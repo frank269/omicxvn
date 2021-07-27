@@ -12,15 +12,15 @@ class ProfileForm extends StatelessWidget {
         1: FlexColumnWidth(2),
       },
       children: [
-        buildRow('Họ và tên:', user.fullname),
-        buildRow('Địa chỉ Email:', user.email),
-        buildRow('Giới tính:', user.sex),
-        buildRow('Ngày sinh:', user.birthday),
-        buildRow('Số điện thoại:', user.phonenumber),
-        buildRow('Địa chỉ:', user.addresses),
-        buildRow('Người tạo:', user.suppervisor),
-        buildRow('Vai trò:', user.role),
-        buildRow('Cấp bậc:', user.level),
+        buildRow('Họ và tên:', user.fullName),
+        buildRow('Địa chỉ Email:', user.emailAddress),
+        buildRow('Giới tính:', user.gender == true ? 'Nam' : 'Nữ'),
+        buildRow('Ngày sinh:', user.dateOfBirth),
+        buildRow('Số điện thoại:', user.shortPhone),
+        buildRow('Địa chỉ:', user.address),
+        buildRow('Người tạo:', user.creatorName),
+        buildRow('Vai trò:', user.roleName),
+        buildRow('Cấp bậc:', user.ciscoSkillName),
       ],
     );
   }
@@ -33,7 +33,7 @@ class ProfileForm extends StatelessWidget {
           ),
           Container(
             height: 20,
-            child: Text(value),
+            child: Text(value == null ? '' : '$value'),
           ),
         ],
       );

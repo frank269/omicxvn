@@ -19,6 +19,9 @@ class ApiUtils {
         ? Uri.https(base, path, params)
         : Uri.http(base, path, params));
     try {
+      print('SEND GET: $uri');
+      // print('HEADERS: $headers');
+      print('PARAMS: $params');
       var response = await client
           .get(uri, headers: headers)
           .timeout(const Duration(seconds: TIME_OUT_DURATION));
@@ -60,6 +63,9 @@ class ApiUtils {
   }) async {
     var uri = isHttps == true ? Uri.https(base, path) : Uri.http(base, path);
     try {
+      print('SEND POST: $uri');
+      // print('HEADERS: $headers');
+      print('BODY: $body');
       var response = await client
           .post(uri, headers: headers, body: body)
           .timeout(const Duration(seconds: TIME_OUT_DURATION));

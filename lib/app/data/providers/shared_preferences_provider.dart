@@ -8,6 +8,7 @@ class SharedPreferencesProvider implements IDataProvider {
   final String KEY_PASSWORD = 'password';
   final String KEY_REMEMBER = 'remember';
   final String KEY_TOKEN = 'token';
+  final String KEY_TENANT_ID = 'tenantId';
 
   SharedPreferences? _prefs = null;
 
@@ -47,5 +48,15 @@ class SharedPreferencesProvider implements IDataProvider {
     _setSaved(KEY_USERNAME, user.username);
     _setSaved(KEY_PASSWORD, user.password);
     _setSaved(KEY_REMEMBER, user.rememberme);
+  }
+
+  @override
+  String getTenantId() {
+    return _getSaved(KEY_TENANT_ID);
+  }
+
+  @override
+  saveTenantId(String id) {
+    _setSaved(KEY_TENANT_ID, id);
   }
 }

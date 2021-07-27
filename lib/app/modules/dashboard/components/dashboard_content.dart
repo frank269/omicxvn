@@ -106,9 +106,9 @@ class DashboardContent extends StatelessWidget {
                       ),
                     ),
                   ),
-                  getRowItem('Tổng số cuộc gọi vào', item.total1),
-                  getRowItem('Tổng số cuộc gọi nhỡ', item.total2),
-                  getRowItem('Tổng thời gian đàm thoại', item.total3),
+                  getRowItem('Tổng số cuộc gọi vào', item.total1, 'cuộc'),
+                  getRowItem('Tổng số cuộc gọi nhỡ', item.total2, 'cuộc'),
+                  getRowItem('Tổng thời gian đàm thoại', item.total3, ''),
                 ],
               ),
             ),
@@ -119,7 +119,7 @@ class DashboardContent extends StatelessWidget {
   }
 }
 
-getRowItem(title, value) => Expanded(
+getRowItem(title, value, postfix) => Expanded(
       flex: 1,
       child: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -148,7 +148,7 @@ getRowItem(title, value) => Expanded(
                       children: [
                         Spacer(),
                         Text(
-                          '$value cuộc',
+                          '$value $postfix',
                           style: TextStyle(
                             color: Colors.grey.shade800,
                             fontWeight: FontWeight.bold,

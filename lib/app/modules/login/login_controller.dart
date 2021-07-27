@@ -3,8 +3,7 @@ import 'package:get/get.dart';
 
 import '/app/data/constants/texts.dart';
 import '/app/data/models/models.dart';
-import '/app/data/providers/shared_preferences_provider.dart';
-import '../../data/services/services.dart';
+import '/app/data/services/services.dart';
 import '/app/routes/pages.dart';
 import 'login_repository.dart';
 
@@ -16,6 +15,7 @@ class LoginController extends GetxController {
 
   var loginRepository = LoginRepository();
   final DbService _dbService = Get.find<DbService>();
+  final CallService _callService = Get.find<CallService>();
 
   LoginController() {
     init();
@@ -39,12 +39,14 @@ class LoginController extends GetxController {
       errorMsg.value = TextConstants.loginErrorText;
       return;
     }
+    _dbService.currentUser = user;
     if (remember.value) {
       _dbService.provider.saveUserRequest(UserRequest(
           usernameTextController.text, passwordTextController.text, 'true'));
       _dbService.provider.saveAuthToken(user.accessToken);
     }
-
+    _callService.register(
+        user.extension, passwordTextController.text, 'MetechCall', user.fullName);
     await Get.offNamed(Routes.HOME);
   }
 
