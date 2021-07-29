@@ -16,7 +16,7 @@ class CallDialogController extends GetxController {
   var audioMuted = false.obs;
   var speakerIsOn = false.obs;
   var msg = ''.obs;
-  var username = '';
+  String username = '';
 
   final _callService = Get.find<CallService>();
   CallDialogController() {}
@@ -65,11 +65,13 @@ class CallDialogController extends GetxController {
     switch (state.state) {
       case CallStateEnum.ACCEPTED:
       case CallStateEnum.CONFIRMED:
-        msg.value = '00:00';
         _messageSubscription = _callService.message.stream.listen((value) {
           msg.value = value ?? '00:00';
+          update();
         });
         callStateIndex.value = CallDialogState.CONNECTED;
+        update();
+
         break;
 
       case CallStateEnum.CONNECTING:
@@ -79,6 +81,8 @@ class CallDialogController extends GetxController {
           msg.value = 'Đang kết nối ... ';
         }
         callStateIndex.value = CallDialogState.CALLOUT;
+        update();
+
         break;
       case CallStateEnum.PROGRESS:
         if (_callService.isCallingOut()) {
@@ -88,6 +92,8 @@ class CallDialogController extends GetxController {
           msg.value = 'Cuộc gọi đến';
           callStateIndex.value = CallDialogState.CALLIN;
         }
+        update();
+
         break;
 
       case CallStateEnum.CALL_INITIATION:
@@ -100,6 +106,8 @@ class CallDialogController extends GetxController {
           msg.value = 'Cuộc gọi đến';
           callStateIndex.value = CallDialogState.CALLIN;
         }
+        update();
+
         break;
       default:
         break;

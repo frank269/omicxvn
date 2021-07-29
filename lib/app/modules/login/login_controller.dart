@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import '/app/core/core.dart';
 
 import '/app/data/constants/texts.dart';
 import '/app/data/models/models.dart';
@@ -45,8 +46,10 @@ class LoginController extends GetxController {
           usernameTextController.text, passwordTextController.text, 'true'));
       _dbService.provider.saveAuthToken(user.accessToken);
     }
-    _callService.register(
-        user.extension, passwordTextController.text, 'MetechCall', user.fullName);
+    _callService.register(user.extension, passwordTextController.text,
+        'MetechCall', user.fullName);
+
+    DialogHelper.hideLoading();
     await Get.offNamed(Routes.HOME);
   }
 

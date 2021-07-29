@@ -16,16 +16,25 @@ class ContactScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: contactsColor,
-        title: Text(
-          TextConstants.contactsTitle,
-          style: toolbarTextStyle,
+    return GetBuilder<ContactsController>(
+      builder: (controller) => Scaffold(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+              onPressed: controller.addContact,
+            ),
+          ],
+          backgroundColor: contactsColor,
+          title: Text(
+            TextConstants.contactsTitle,
+            style: toolbarTextStyle,
+          ),
         ),
-      ),
-      body: GetBuilder<ContactsController>(
-        builder: (controller) => NotificationListener<ScrollNotification>(
+        body: NotificationListener<ScrollNotification>(
           child: ListView.builder(
             itemCount: controller.listContacts.length,
             itemBuilder: (context, index) {

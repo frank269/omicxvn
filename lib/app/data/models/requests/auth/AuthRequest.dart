@@ -9,7 +9,7 @@ class AuthRequest {
     required this.userNameOrEmailAddress,
     required this.password,
     this.rememberClient = false,
-    this.tenantId = 23,
+    this.tenantId = 24,
   });
 
   AuthRequest copyWith({

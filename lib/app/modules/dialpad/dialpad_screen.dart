@@ -88,7 +88,7 @@ class DialpadScreen extends GetView<DialpadController> {
         {'9': 'wxyz'}
       ],
       [
-        {'+': ''},
+        {'*': ''},
         {'0': ''},
         {'⌫': ''}
       ],

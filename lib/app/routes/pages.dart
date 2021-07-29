@@ -50,5 +50,35 @@ class AppPages {
       page: () => TicketDetailScreen(),
       binding: TicketDetailBinding(),
     ),
+    GetPage(
+      name: Routes.TICKET_ADD,
+      page: () => TicketAddScreen(),
+      binding: TicketAddBinding(),
+    ),
+    GetPage(
+      name: Routes.TICKET_EDIT,
+      page: () => TicketEditScreen(),
+      binding: TicketEditBinding(),
+    ),
+    GetPage(
+      name: Routes.CONTACT_DETAIL,
+      page: () => ContactDetailScreen(),
+      binding: ContactDetailBinding(),
+    ),
+    GetPage(
+      name: Routes.CONTACT_ADD,
+      page: () => ContactAddScreen(),
+      binding: ContactAddBinding(),
+    ),
+    GetPage(
+      name: Routes.CONTACT_EDIT,
+      page: () => ContactEditScreen(),
+      binding: ContactEditBinding(),
+    ),
+    GetPage(
+      name: Routes.CALL_HISTORY_DETAIL,
+      page: () => CallHistoryDetailScreen(),
+      binding: CallHistoryDetailBinding(),
+    ),
   ];
 }

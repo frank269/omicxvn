@@ -6,6 +6,22 @@ import '/app/data/services/repository.dart';
 import '/app/core/core.dart';
 
 class ContactRepository with BaseController implements BaseRepository {
+  Future<List<Agent>> getAgentList() async {
+    var response = await ApiUtils.sendGet(
+      base: ApiConstants.BASE_API,
+      path: ApiConstants.GET_AGENT_PATH,
+      headers: headers,
+      params: null,
+    ).catchError(handleError);
+    if (response != null) {
+      if (response['success']) {
+        var data = response['result'];
+        if (data == []) return List<Agent>.empty();
+        return List.from(data).map<Agent>((a) => Agent.fromMap(a)).toList();
+      }
+    }
+    return List<Agent>.empty();
+  }
 
   Future<List<Contact>> getContactList(ContactParam params) async {
     var response = await ApiUtils.sendPost(

@@ -77,4 +77,32 @@ class ApiUtils {
           'API not responded in time', uri.toString());
     }
   }
+
+  static Future<dynamic> sendPut({
+    required String base,
+    required String path,
+    Map<String, String> headers = const {},
+    required dynamic body,
+    Map<String, String>? param,
+    bool isHttps = true,
+  }) async {
+    var uri = isHttps == true
+        ? Uri.https(base, path, param)
+        : Uri.http(base, path, param);
+    try {
+      print('SEND PUT: $uri');
+      // print('HEADERS: $headers');
+      print('PARM: $param');
+      print('BODY: $body');
+      var response = await client
+          .put(uri, headers: headers, body: body)
+          .timeout(const Duration(seconds: TIME_OUT_DURATION));
+      return _processResponse(response);
+    } on SocketException {
+      throw FetchDataException('No Internet connection', uri.toString());
+    } on TimeoutException {
+      throw ApiNotRespondingException(
+          'API not responded in time', uri.toString());
+    }
+  }
 }

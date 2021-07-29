@@ -4,7 +4,6 @@ import '/app/data/models/models.dart';
 import '/app/data/services/repository.dart';
 
 class LoginRepository with BaseController implements BaseRepository {
-  
   Future<AuthResponse?> login(String username, String password,
       [bool showLoadingPopup = false]) async {
     if (showLoadingPopup) showLoading('Đăng nhập ...');
@@ -19,7 +18,6 @@ class LoginRepository with BaseController implements BaseRepository {
           'Abp.TenantId': '24',
         }).catchError(handleError);
     if (response != null) {
-      if (showLoadingPopup) hideLoading();
       if (response['success']) {
         var result = response['result'];
         var authResponse = AuthResponse.fromMap(result);

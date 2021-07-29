@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../call_history_controller.dart';
 import '/app/data/models/models.dart';
 import 'package:intl/intl.dart';
 
 class CallHistoryItem extends StatelessWidget {
-  const CallHistoryItem({Key? key, required this.item}) : super(key: key);
+  CallHistoryItem({Key? key, required this.item}) : super(key: key);
   final CallHistory item;
+  final callHistoryController = Get.find<CallHistoryController>();
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ExpansionTile(
         title: Padding(
           padding: const EdgeInsets.only(
-            top: 8.0,
-            bottom: 8.0,
+            top: 5.0,
+            bottom: 3.0,
           ),
           child: Row(
             children: [
@@ -69,16 +72,19 @@ class CallHistoryItem extends StatelessWidget {
         ),
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(bottom: 3),
             child: Row(
               children: [
                 Expanded(
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.call,
-                        size: 30,
-                        color: Colors.green,
+                      IconButton(
+                        onPressed: () => callHistoryController.call(item),
+                        icon: Icon(
+                          Icons.call,
+                          size: 30,
+                          color: Colors.green,
+                        ),
                       ),
                       Text("Gọi")
                     ],
@@ -88,10 +94,13 @@ class CallHistoryItem extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.archive,
-                        size: 30,
-                        color: Colors.green,
+                      IconButton(
+                        onPressed: () => callHistoryController.createTicket(item),
+                        icon: Icon(
+                          Icons.archive,
+                          size: 30,
+                          color: Colors.green,
+                        ),
                       ),
                       Text("Tạo Ticket")
                     ],
@@ -99,18 +108,18 @@ class CallHistoryItem extends StatelessWidget {
                   flex: 1,
                 ),
                 Expanded(
-                  child: GestureDetector(
-                    child: Column(
-                      children: [
-                        Icon(
+                  child: Column(
+                    children: [
+                      IconButton(
+                        onPressed: () => callHistoryController.viewDetail(item),
+                        icon: Icon(
                           Icons.info_outline,
                           size: 30,
                           color: Colors.green,
                         ),
-                        Text("Chi tiết")
-                      ],
-                    ),
-                    onTap: () {},
+                      ),
+                      Text("Chi tiết")
+                    ],
                   ),
                   flex: 1,
                 ),

@@ -8,8 +8,8 @@ class BaseController {
   var dbService = Get.find<DbService>();
   get headers => {
         "Authorization": "Bearer " + (dbService.currentUser?.accessToken ?? ''),
-        "abp.tenantid": dbService.currentUser?.tenantId.toString(),
-        "Content-Type": "application/json"
+        "abp.tenantid": '24',
+        "Content-Type": "application/json; charset=UTF-8"
       };
 
   void handleError(error) {

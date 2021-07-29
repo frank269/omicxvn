@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:omicxvn/app/routes/pages.dart';
+import '/app/modules/controllers.dart';
 import '/app/data/models/models.dart';
 
 class TicketItem extends StatelessWidget {
   final Ticket item;
-  const TicketItem({Key? key, required this.item}) : super(key: key);
-
+  TicketItem({Key? key, required this.item}) : super(key: key);
+  final ticketController = Get.find<TicketController>();
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -19,16 +19,19 @@ class TicketItem extends StatelessWidget {
         ),
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(bottom: 5.0),
             child: Row(
               children: [
                 Expanded(
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.call,
-                        size: 30,
-                        color: Colors.green,
+                      IconButton(
+                        onPressed: () => ticketController.call(item),
+                        icon: Icon(
+                          Icons.call,
+                          size: 30,
+                          color: Colors.green,
+                        ),
                       ),
                       Text("Gọi")
                     ],
@@ -38,10 +41,13 @@ class TicketItem extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.sticky_note_2,
-                        size: 30,
-                        color: Colors.green,
+                      IconButton(
+                        onPressed: () => ticketController.merge(item),
+                        icon: Icon(
+                          Icons.sticky_note_2,
+                          size: 30,
+                          color: Colors.green,
+                        ),
                       ),
                       Text("Gộp")
                     ],
@@ -51,10 +57,13 @@ class TicketItem extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Icon(
-                        Icons.person,
-                        size: 30,
-                        color: Colors.green,
+                      IconButton(
+                        onPressed: () => ticketController.assign(item),
+                        icon: Icon(
+                          Icons.person,
+                          size: 30,
+                          color: Colors.green,
+                        ),
                       ),
                       Text("Phân công")
                     ],
@@ -62,19 +71,18 @@ class TicketItem extends StatelessWidget {
                   flex: 1,
                 ),
                 Expanded(
-                  child: GestureDetector(
-                    child: Column(
-                      children: [
-                        Icon(
+                  child: Column(
+                    children: [
+                      IconButton(
+                        onPressed: () => ticketController.viewDetail(item),
+                        icon: Icon(
                           Icons.info_outline,
                           size: 30,
                           color: Colors.green,
                         ),
-                        Text("Chi tiết")
-                      ],
-                    ),
-                    onTap: () =>
-                        Get.toNamed('${Routes.TICKET_DETAIL}?id=${item.id}'),
+                      ),
+                      Text("Chi tiết")
+                    ],
                   ),
                   flex: 1,
                 ),

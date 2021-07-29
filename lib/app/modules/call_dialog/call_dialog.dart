@@ -16,7 +16,7 @@ class CallDialog extends StatelessWidget {
           Radius.circular(20.0),
         ),
       ),
-      content: GetX<CallDialogController>(
+      content: GetBuilder<CallDialogController>(
         init: CallDialogController(),
         builder: (controller) => buildWidget(controller),
       ),
@@ -41,7 +41,7 @@ class CallDialog extends StatelessWidget {
         children: [
           SizedBox(height: 10),
           Text(
-            controller.username,
+            '${controller.username}',
             style: TextStyle(
               color: Colors.black,
               fontSize: 18,

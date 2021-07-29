@@ -54,6 +54,7 @@ class HomeController extends GetxController {
   }
 
   onFloatingButtonClicked() {
+    // _callService.showEndCallDialog();
     if (isOnCall) {
       _callService.showDialog();
     } else {

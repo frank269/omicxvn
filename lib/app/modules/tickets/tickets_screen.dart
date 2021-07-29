@@ -16,31 +16,42 @@ class TicketsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: ticketsColor,
-        title: Text(
-          TextConstants.ticketsTitle,
-          style: toolbarTextStyle,
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.sort),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: GetBuilder<TicketController>(
-          builder: (controller) => NotificationListener<ScrollNotification>(
-                child: ListView.builder(
-                  itemCount: controller.listTickets.length,
-                  itemBuilder: (context, index) {
-                    return TicketItem(item: controller.listTickets[index]);
-                  },
+    return GetBuilder<TicketController>(
+      builder: (controller) => Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: ticketsColor,
+            title: Text(
+              TextConstants.ticketsTitle,
+              style: toolbarTextStyle,
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(
+                  Icons.sort,
+                  color: Colors.white,
                 ),
-                onNotification: (notification) =>
-                    loadMore(controller, notification),
-              )),
+                onPressed: controller.filterTicket,
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                onPressed: controller.addTicket,
+              ),
+            ],
+          ),
+          body: NotificationListener<ScrollNotification>(
+            child: ListView.builder(
+              itemCount: controller.listTickets.length,
+              itemBuilder: (context, index) {
+                return TicketItem(item: controller.listTickets[index]);
+              },
+            ),
+            onNotification: (notification) =>
+                loadMore(controller, notification),
+          )),
     );
   }
 }

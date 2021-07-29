@@ -13,8 +13,7 @@ class DashboardController extends GetxController {
   }
   loadData() async {
     final params = DashBoardParam(
-        agentId: _dbService.currentUser?.userId ?? 0,
-        tenantId: _dbService.currentUser?.tenantId ?? 0);
+        agentId: _dbService.currentUser?.userId ?? 0, tenantId: 24);
     var agentInbound = await _dashboardRepository.getAgentInbound(params);
     var agentOutbound = await _dashboardRepository.getAgentOutbound(params);
     var agentTask = await _dashboardRepository.getAgentTask(params);

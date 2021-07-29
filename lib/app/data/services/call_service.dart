@@ -2,12 +2,16 @@ import 'dart:async';
 
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
-import 'package:omicxvn/app/core/core.dart';
 import 'package:sip_ua/sip_ua.dart';
 
+import '/app/core/core.dart';
+import '/app/data/models/models.dart';
+import '/app/data/providers/api_provider.dart';
 import '/app/modules/call_dialog/call_dialog.dart';
+import '/app/modules/call_dialog/end_call_dialog.dart';
 
 class CallService extends GetxService implements SipUaHelperListener {
+  final _callApiRepository = CallApiRepository();
   final SIPUAHelper _helper = SIPUAHelper();
   Map<String, String> _wsExtraHeaders = {
     'Origin': ' https://call.metechvn.com',
@@ -21,6 +25,7 @@ class CallService extends GetxService implements SipUaHelperListener {
   Call? curentCall;
   var message = ''.obs;
   var isOnCall = false.obs;
+  var isCallSucess = true;
 
   @override
   void onInit() async {
@@ -53,12 +58,13 @@ class CallService extends GetxService implements SipUaHelperListener {
     return EnumHelper.getName(callState.value.state);
   }
 
+  var _direction = 'OUTGOING';
   String direction() {
-    return curentCall?.direction ?? '';
+    return _direction;
   }
 
   bool isCallingOut() {
-    return curentCall?.direction == "OUTGOING";
+    return _direction == "OUTGOING";
   }
 
   isRegisted() {
@@ -66,8 +72,8 @@ class CallService extends GetxService implements SipUaHelperListener {
   }
 
   register(ext, pass, displayName, agentName) async {
-    ext = '1112';
-    pass = 'Metech#call@123';
+    // ext = '1112';
+    // pass = 'Metech#call@123';
     if (!isRegisted()) {
       settings.uri = 'sip:${ext}@call.metechvn.com';
       settings.authorizationUser = '${ext}';
@@ -83,9 +89,36 @@ class CallService extends GetxService implements SipUaHelperListener {
     _helper.stop();
   }
 
-  call(String destination) {
-    if (registerState.value.state != RegistrationStateEnum.REGISTERED) return;
-    _helper.call(destination);
+  int? contactId = 0;
+  int? agentId = 0;
+
+  call(String destination, [String userName = '', int contactId = 0,int  agentId = 0]) {
+    if (registerState.value.state != RegistrationStateEnum.REGISTERED) {
+      DialogHelper.showToast(
+          message: 'Mất kết nối đến call center, vui lòng đăng nhập lại!');
+      return;
+    }
+    if (destination == "") {
+      DialogHelper.showToast(message: 'Nhập số trước khi gọi!');
+      return;
+    }
+    if (isOnCall.value) {
+      DialogHelper.showToast(
+          message: 'Đang trong cuộc gọi, vui lòng về trang chủ!');
+      // sendDtmf(destination);
+    } else {
+      this.contactId = contactId;
+      this.agentId = agentId;
+      this.userName = userName;
+      phoneNumber = destination;
+      _helper.call(destination);
+    }
+  }
+
+  sendDtmf(String tone) {
+    if (isOnCall.value) {
+      curentCall?.sendDTMF(tone);
+    }
   }
 
   answer() {
@@ -93,7 +126,10 @@ class CallService extends GetxService implements SipUaHelperListener {
   }
 
   hangup() {
-    curentCall?.hangup();
+    try {
+      dismissDialog();
+      curentCall?.hangup();
+    } on Exception catch (_) {}
   }
 
   unmute() {
@@ -105,8 +141,10 @@ class CallService extends GetxService implements SipUaHelperListener {
   }
 
   setSpeaker(isOn) {
-    speakerIsOn.value = isOn;
-    _localStream?.getAudioTracks()[0].enableSpeakerphone(isOn);
+    if (_localStream != null) {
+      speakerIsOn.value = isOn;
+      _localStream?.getAudioTracks()?.first?.enableSpeakerphone(isOn);
+    }
   }
 
   MediaStream? _localStream = null;
@@ -130,12 +168,13 @@ class CallService extends GetxService implements SipUaHelperListener {
 
   void _handelStreams(CallState event) async {
     MediaStream stream = event.stream;
-    if (event.originator == 'local') {}
+    if (event.originator == 'local') {
+      _localStream = stream;
+      setSpeaker(false);
+    }
     if (event.originator == 'remote') {
       _remoteStream = stream;
     }
-    _localStream = stream;
-    setSpeaker(false);
   }
 
   void dismissDialog() {
@@ -144,8 +183,16 @@ class CallService extends GetxService implements SipUaHelperListener {
     }
   }
 
+  void showEndCallDialog() {
+    dismissDialog();
+    Get.dialog(
+      EndCallDialog(),
+      barrierDismissible: false,
+    );
+  }
+
   void showDialog() {
-    if (Get.isDialogOpen ?? false) return;
+    dismissDialog();
     Get.dialog(
       CallDialog(),
       barrierDismissible: false,
@@ -175,10 +222,99 @@ class CallService extends GetxService implements SipUaHelperListener {
   }
 
   var userName = 'Unknown';
+  var phoneNumber = '';
+
+  ContactHistoryResponse? _createContactHistory;
+  _onCallStarted() async {
+    var now = DateTime.now();
+    var _dialogId = now.microsecondsSinceEpoch.toString();
+    _createContactHistory = await _callApiRepository.createContactHistory(
+      CreateContactHistory(
+        contactHistory: ContactHistory(
+          tenantId: 24,
+          channelType: "VOICE",
+          typeDetail: 1,
+          contactId: contactId,
+          creatorUserId: agentId,
+          phoneNumber: phoneNumber,
+          status: 1,
+          dialogId: _dialogId,
+          isPicked: false,
+          agentId: agentId,
+          missingQuantity: 0,
+          creationTime: now.toIso8601String(),
+          callId: 0,
+          id: 0,
+        ),
+        call: CreateContactHistoryCall(
+          tenantId: 24,
+          contactId: contactId,
+          agentId: agentId,
+          callType: 1,
+          dialogId: _dialogId,
+          status: 1,
+          id: 0,
+        ),
+        callType: 1,
+        contactId: contactId,
+      ),
+    );
+    print('CallService: _createContactHistory $_createContactHistory');
+  }
+
+  _onCallPicked() async {
+    var result = await _callApiRepository.changeMisstoOutbound(
+      ChangeMissToOutBoundRequest(
+        contactId: contactId,
+        contactHistoryId: _createContactHistory?.contactHistory?.id,
+        contactType: 1,
+        callId: _createContactHistory?.call?.id,
+        phoneNumberToChange: "",
+      ),
+    );
+    print('CallService: changeMisstoOutbound: $result');
+  }
+
+  _onCallEnded() async {
+    var result = await _callApiRepository.updateContactHistory(
+      UpdateContactHistoryRequest(
+        status: 2,
+        id: _createContactHistory?.contactHistory?.id,
+      ),
+    );
+
+    print('CallService: updateContactHistory: $result');
+  }
+
+  createInteractCart(
+      statusResult, description, classify, phoneNumber, contactName) async {
+    var result = await _callApiRepository.createInteractCard(
+      CreateInteractCardRequest(
+        tenantId: 24,
+        channelType: "VOICE",
+        callId: _createContactHistory?.call?.id,
+        statusResult: statusResult,
+        description: description,
+        classify: classify,
+        outboundType: "OUTBOUND",
+        creatorUserId: agentId,
+        phoneNumber: phoneNumber,
+        contactName: contactName,
+      ),
+    );
+    if (result) {
+      DialogHelper.showToast(message: 'Lưu thành công!');
+    } else {
+      DialogHelper.showToast(
+          message: 'Đã có lỗi xảy ra, lưu không thành công!');
+    }
+    print('CallService: createInteractCard: $result');
+  }
 
   @override
   void callStateChanged(Call call, CallState state) {
-    curentCall = call;
+    callState.value = state;
+    _direction = call.direction ?? 'OUTGOING';
     switch (state.state) {
       case CallStateEnum.UNMUTED:
         audioMuted.value = false;
@@ -191,6 +327,7 @@ class CallService extends GetxService implements SipUaHelperListener {
       case CallStateEnum.CONFIRMED:
         isOnCall.value = true;
         _startTimer();
+        _onCallPicked();
         break;
 
       case CallStateEnum.STREAM:
@@ -198,21 +335,30 @@ class CallService extends GetxService implements SipUaHelperListener {
         break;
 
       case CallStateEnum.CALL_INITIATION:
+        curentCall = call;
         showDialog();
+        _onCallStarted();
         break;
 
       case CallStateEnum.FAILED:
-      case CallStateEnum.ENDED:
+        isCallSucess = false;
         isOnCall.value = false;
         _stopTimer();
-        dismissDialog();
+        if (isCallingOut()) showEndCallDialog();
+        _onCallEnded();
+        break;
+      case CallStateEnum.ENDED:
+        isCallSucess = true;
+        isOnCall.value = false;
+        _stopTimer();
+        if (isCallingOut()) showEndCallDialog();
+        _onCallEnded();
         break;
 
       default:
         break;
     }
-    callState.value = state;
-    userName = curentCall?.remote_identity ?? 'Unknown';
+    // userName = curentCall?.remote_display_name ?? 'Unknown';
     print('callStateChanged: ${callStateName()}');
   }
 

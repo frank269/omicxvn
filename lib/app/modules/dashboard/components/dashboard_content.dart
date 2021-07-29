@@ -128,37 +128,29 @@ getRowItem(title, value, postfix) => Expanded(
           children: [
             Expanded(
               flex: 1,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        color: Colors.grey.shade700,
-                        fontSize: 18,
-                      ),
-                    ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 18,
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Spacer(),
-                        Text(
-                          '$value $postfix',
-                          style: TextStyle(
-                            color: Colors.grey.shade800,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                      ],
-                    ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  '$value $postfix',
+                  style: TextStyle(
+                    color: Colors.grey.shade800,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
-                ],
+                ),
               ),
             ),
             SizedBox(
