@@ -28,6 +28,7 @@ class ApiConstants {
   static const GET_USER_BYID_PATH = 'api/services/app/User/GetUserById';
   static const GET_HISTORY_CONTACT_IN_TICKET_PATH =
       'api/services/app/HistoryContactDetail/GetHistoryContactInTicket';
+      static const GET_CONTACT_RELATION_PATH ='api/services/app/Ticket/GetContactRelation';
 
   static const CREATE_TICKET_PATH = 'api/services/app/Ticket/CreateTicket';
   static const CREATE_CONTACT_PATH = 'api/services/app/Contact/CreateContact';

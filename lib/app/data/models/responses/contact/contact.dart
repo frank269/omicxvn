@@ -2,6 +2,62 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+class ContactRelation {
+  int? totalCount;
+  List<Contact?>? items;
+  ContactRelation({
+    this.totalCount,
+    this.items,
+  });
+
+  ContactRelation copyWith({
+    int? totalCount,
+    List<Contact?>? items,
+  }) {
+    return ContactRelation(
+      totalCount: totalCount ?? this.totalCount,
+      items: items ?? this.items,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'totalCount': totalCount,
+      'items': items?.map((x) => x?.toMap())?.toList(),
+    };
+  }
+
+  factory ContactRelation.fromMap(Map<String, dynamic> map) {
+    return ContactRelation(
+      totalCount: map['totalCount'],
+      items: map['items'] == null
+          ? null
+          : List<Contact?>.from(map['items']?.map((x) => Contact?.fromMap(x))),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ContactRelation.fromJson(String source) =>
+      ContactRelation.fromMap(json.decode(source));
+
+  @override
+  String toString() =>
+      'ContactRelation(totalCount: $totalCount, items: $items)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ContactRelation &&
+        other.totalCount == totalCount &&
+        listEquals(other.items, items);
+  }
+
+  @override
+  int get hashCode => totalCount.hashCode ^ items.hashCode;
+}
+
 class Contact {
   String? fullName;
   String? email;

@@ -64,12 +64,12 @@ class TicketController extends GetxController {
     var callHistory =
         await _ticketsRepository.getHistoryContactInTicket(item.id ?? 0);
     if (callHistory != null &&
-        callHistory.getHistoryContactInTicketDtos?.first?.phoneNumberListener !=
-            null) {
+        callHistory.items != null &&
+        callHistory.items?.isNotEmpty == true &&
+        callHistory.items?.first?.phoneNumber1 != null) {
       _callService.call(
-        callHistory.getHistoryContactInTicketDtos?.first?.phoneNumberListener ??
-            '0',
-        callHistory.getHistoryContactInTicketDtos?.first?.listener ?? '',
+        callHistory.items?.first?.phoneNumber1 ?? '0',
+        callHistory.items?.first?.fullName ?? '',
         0,
         _dbService.currentUser?.userId ?? 0,
       );

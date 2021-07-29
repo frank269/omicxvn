@@ -21,19 +21,19 @@ class TicketsRepository with BaseController implements BaseRepository {
     return List<Agent>.empty();
   }
 
-  Future<HistoryContactInList> getHistoryContactInTicket(int id) async {
+  Future<ContactRelation> getHistoryContactInTicket(int id) async {
     var response = await ApiUtils.sendGet(
         base: ApiConstants.BASE_API,
-        path: ApiConstants.GET_CONTACT_IN_TICKET_PATH,
+        path: ApiConstants.GET_CONTACT_RELATION_PATH,
         headers: headers,
         params: {"TicketId": "$id"}).catchError(handleError);
     if (response != null) {
       if (response['success']) {
         var data = response['result'];
-        return HistoryContactInList.fromMap(data);
+        return ContactRelation.fromMap(data);
       }
     }
-    return HistoryContactInList();
+    return ContactRelation();
   }
 
   Future<List<Ticket>> getTicket(TicketParam ticketParam) async {

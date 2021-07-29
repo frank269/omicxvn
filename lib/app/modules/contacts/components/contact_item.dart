@@ -51,22 +51,22 @@ class ContactItem extends StatelessWidget {
                   ),
                   flex: 1,
                 ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      IconButton(
-                        onPressed: () => contactsController.createTicket(item),
-                        icon: Icon(
-                          Icons.archive,
-                          size: 30,
-                          color: Colors.green,
-                        ),
-                      ),
-                      Text("Tạo Tickket")
-                    ],
-                  ),
-                  flex: 1,
-                ),
+                // Expanded(
+                //   child: Column(
+                //     children: [
+                //       IconButton(
+                //         onPressed: () => contactsController.createTicket(item),
+                //         icon: Icon(
+                //           Icons.archive,
+                //           size: 30,
+                //           color: Colors.green,
+                //         ),
+                //       ),
+                //       Text("Tạo Tickket")
+                //     ],
+                //   ),
+                //   flex: 1,
+                // ),
                 Expanded(
                   child: Column(
                     children: [

@@ -45,7 +45,9 @@ class CallHistoryController extends GetxController {
         );
   }
 
-  createTicket(CallHistory item) {}
+  createTicket(CallHistory item) {
+    Get.toNamed(Routes.TICKET_ADD);
+  }
 
   var callHistory = CallHistory();
   viewDetail(CallHistory item) {
