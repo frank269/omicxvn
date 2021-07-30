@@ -8,7 +8,9 @@ import '../controllers.dart';
 class TicketAddController extends GetxController {
   final _repo = TicketAddRepository();
   createTicket(CreateTicketParam item) async {
-    item.contactId = null;
+    item.contactName = item.contactName == null || item.contactName == ''
+        ? item.phoneNumberContact
+        : item.contactName;
     var result = await _repo.createTicket(item);
     if (result) {
       DialogHelper.showToast(message: 'Thêm ticket thành công');

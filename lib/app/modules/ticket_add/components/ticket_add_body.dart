@@ -11,6 +11,10 @@ class TicketAddBody extends StatefulWidget {
     return widget.getTicket();
   }
 
+  setInfo(String? phone, String? contactId) {
+    widget.setInfo(phone, contactId);
+  }
+
   @override
   State<TicketAddBody> createState() => widget;
 }
@@ -18,6 +22,12 @@ class TicketAddBody extends StatefulWidget {
 class _TicketAddBodyState extends State<TicketAddBody> {
   CreateTicketParam getTicket() {
     return _ticket;
+  }
+
+  setInfo(String? phone, String? contactId) {
+    _ticket.phoneNumberContact = phone;
+    _ticket.contactId = contactId == null ? null : int.tryParse(contactId);
+    if (mounted) setState(() {});
   }
 
   final _ticket = CreateTicketParam();
@@ -115,9 +125,10 @@ class _TicketAddBodyState extends State<TicketAddBody> {
           SizedBox(
             height: 10,
           ),
-          buildTextRow(
-              (value) => {_ticket.service = value}, 'Loại dịch vụ (*)', true),
-          buildTextRow((value) => {_ticket.title = value}, 'Tiêu đề (*)', true),
+          buildTextRow((value) => {_ticket.service = value}, 'Loại dịch vụ (*)',
+              _ticket.service, true),
+          buildTextRow((value) => {_ticket.title = value}, 'Tiêu đề (*)',
+              _ticket.title, true),
           buildDropdownRow((value) {
             _ticket.ticketType = typeMapReturn[value];
             switch (value) {
@@ -147,7 +158,7 @@ class _TicketAddBodyState extends State<TicketAddBody> {
           buildDateRow((value) {}, 'Hạn hoàn thành', finishDate, null),
           buildTextRow((value) {
             _ticket.phoneNumberContact = value;
-          }, 'Số điện thoại'),
+          }, 'Số điện thoại', _ticket.phoneNumberContact),
           buildTextRow((value) {
             _ticket.contactName = value;
           }, 'Người liên hệ'),
@@ -266,7 +277,9 @@ class _TicketAddBodyState extends State<TicketAddBody> {
           ],
         ),
       );
-  buildTextRow(onEditing, String hint, [needValue = false]) => Padding(
+  buildTextRow(onEditing, String hint,
+          [String? initValue = null, needValue = false]) =>
+      Padding(
         padding: const EdgeInsets.only(
           bottom: 15.0,
         ),
@@ -287,6 +300,7 @@ class _TicketAddBodyState extends State<TicketAddBody> {
             Expanded(
               flex: 2,
               child: TextFormField(
+                initialValue: initValue,
                 decoration: getDecor(''),
                 textInputAction: TextInputAction.next,
                 onChanged: onEditing,

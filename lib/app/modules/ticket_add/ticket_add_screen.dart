@@ -15,6 +15,7 @@ class TicketAddScreen extends GetView<TicketAddController> {
 
   @override
   Widget build(BuildContext context) {
+    ticketbody.setInfo(Get.parameters['phoneNumber'], Get.parameters['contactId']);
     return GetBuilder<TicketAddController>(
       builder: (controller) => Scaffold(
         appBar: AppBar(

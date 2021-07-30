@@ -41,12 +41,12 @@ class CallHistoryController extends GetxController {
         item.direction == 'IN_BOUND' ? "${item.caller}" : "${item.called}",
         item.contact?.fullName ?? '',
         int.tryParse(item.contact?.contactId ?? '0') ?? 0,
-        _dbService.currentUser?.userId ?? 0
-        );
+        _dbService.currentUser?.userId ?? 0);
   }
 
   createTicket(CallHistory item) {
-    Get.toNamed(Routes.TICKET_ADD);
+    Get.toNamed(
+        '${Routes.TICKET_ADD}?phoneNumber=${item.direction == 'OUT_BOUND' ? item.called : item.caller}&contactId=${item.contact?.contactId}');
   }
 
   var callHistory = CallHistory();
